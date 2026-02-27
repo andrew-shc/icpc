@@ -7,7 +7,7 @@ const long long NEG = (long long)-4e18;
 
 using namespace std;
 
-void solve()
+void solve(ll T)
 {
 }
 
@@ -23,7 +23,7 @@ int main()
 
     while (T--)
     {
-        solve();
+        solve(T);
     }
 
     return 0;
