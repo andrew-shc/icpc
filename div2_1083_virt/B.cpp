@@ -39,8 +39,48 @@ void _dbg_print(T &&t, Args &&...args)
 
 using namespace std;
 
+ll power(ll base, ll exp)
+{
+    ll result = 1;
+    for (ll i = 0; i < exp; i++)
+    {
+        result *= base;
+    }
+    return result;
+}
+
 void solve(ll T)
 {
+    ll n;
+    cin >> n;
+
+    if (n == 1)
+    {
+        cout << 1 << endl;
+        return;
+    }
+
+    // unordered_set<ll> factors;
+    ll hk = 1;
+
+    bool new_factor = true;
+    ll k = 2;
+    for (ll k = 2; k * k <= n; k++)
+    {
+        if (n % k == 0)
+        {
+            hk *= k;
+            while (n % k == 0)
+                n /= k;
+        }
+    }
+
+    if (n > 1) // n itself was prime also
+    {
+        hk *= n;
+    }
+
+    cout << hk << endl;
 }
 
 int main()
