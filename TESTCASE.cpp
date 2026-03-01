@@ -39,9 +39,7 @@ void _dbg_print(T &&t, Args &&...args)
 
 using namespace std;
 
-void solve(ll T)
-{
-}
+void solve(ll T);
 
 int main()
 {
@@ -59,4 +57,8 @@ int main()
     }
 
     return 0;
+}
+
+void solve(ll T)
+{
 }

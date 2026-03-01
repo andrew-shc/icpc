@@ -5,20 +5,41 @@ typedef unsigned long long ull;
 
 const long long NEG = (long long)-4e18;
 
+#define DBG(...)                                     \
+    do                                               \
+    {                                                \
+        std::cout << "[" << #__VA_ARGS__ << "] = ["; \
+        _dbg_print(__VA_ARGS__);                     \
+        std::cout << "]" << std::endl;               \
+    } while (0)
+
+template <typename T>
+void _dbg_print(T &&t) { std::cout << t; }
+
+template <typename T, typename... Args>
+void _dbg_print(T &&t, Args &&...args)
+{
+    std::cout << t << ", ";
+    _dbg_print(args...);
+}
+#define DBG_ITER(arr)           \
+    do                          \
+    {                           \
+        cout << #arr << " = ["; \
+        bool _dbg_first = true; \
+        for (auto &x : arr)     \
+        {                       \
+            if (!_dbg_first)    \
+                cout << ", ";   \
+            cout << x;          \
+            _dbg_first = false; \
+        }                       \
+        cout << "]" << endl;    \
+    } while (0)
+
 using namespace std;
 
-void solve()
-{
-    int n;
-    cin >> n;
-    int a[n];
-    for (int i = 0; i < n; i++)
-    {
-        int ai;
-        cin >> ai;
-        a[i] = ai;
-    }
-}
+void solve(ll T);
 
 int main()
 {
@@ -32,8 +53,12 @@ int main()
 
     while (T--)
     {
-        solve();
+        solve(T);
     }
 
     return 0;
+}
+
+void solve(ll T)
+{
 }
