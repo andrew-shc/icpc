@@ -1,0 +1,75 @@
+#include <bits/stdc++.h>
+
+typedef long long ll;
+typedef unsigned long long ull;
+
+const long long NEG = (long long)-4e18;
+
+#define DBG(...)                                     \
+    do                                               \
+    {                                                \
+        std::cout << "[" << #__VA_ARGS__ << "] = ["; \
+        _dbg_print(__VA_ARGS__);                     \
+        std::cout << "]" << std::endl;               \
+    } while (0)
+
+template <typename T>
+void _dbg_print(T &&t) { std::cout << t; }
+
+template <typename T, typename... Args>
+void _dbg_print(T &&t, Args &&...args)
+{
+    std::cout << t << ", ";
+    _dbg_print(args...);
+}
+#define DBG_ITER(arr)           \
+    do                          \
+    {                           \
+        cout << #arr << " = ["; \
+        bool _dbg_first = true; \
+        for (auto &x : arr)     \
+        {                       \
+            if (!_dbg_first)    \
+                cout << ", ";   \
+            cout << x;          \
+            _dbg_first = false; \
+        }                       \
+        cout << "]" << endl;    \
+    } while (0)
+
+using namespace std;
+
+void solve(ll T);
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    ll T = 1;
+
+    cin >> T;
+
+    while (T--)
+    {
+        solve(T);
+    }
+
+    return 0;
+}
+
+void solve(ll T)
+{
+    ll x;
+    cin >> x;
+
+    if (x % 9 != 0)
+    {
+        cout << 0 << endl;
+    }
+    else
+    {
+        cout << 10 << endl;
+    }
+}
