@@ -64,12 +64,39 @@ void solve(ll T)
     ll x;
     cin >> x;
 
-    if (x % 9 != 0)
+    // we can do some ***HEURISTICS/BRUTE-FORCE*** => digits can at most by 9x9 (0 <= d(y) <= 81)
+    // since we know (with some examples) that y is always greater than x (makes sense)
+    //    we can just let y be x to x+81 which covers all the possible range y can be s.t. y-d(y)=x
+
+    for (ll y = x; y <= x + 81; y++)
     {
-        cout << 0 << endl;
+        ll y1 = y;
+        ll digits = 0;
+        while (y1 != 0)
+        {
+            digits += y1 % 10;
+            y1 /= 10;
+        }
+
+        if (y - digits == x)
+        {
+            // we know that if x satisfies any one of the y, it also satisfies 9 adjacent friendlies
+            //   totaling 10 friendly numbers
+            cout << 10 << endl;
+            return;
+        }
     }
-    else
-    {
-        cout << 10 << endl;
-    }
+
+    cout << 0 << endl;
+
+    // divisibility by 9 does not always work esp when y cross carry boundaries (e.g., 999->1000)
+
+    // if (x % 9 != 0)
+    // {
+    //     cout << 0 << endl;
+    // }
+    // else
+    // {
+    //     cout << 10 << endl;
+    // }
 }
