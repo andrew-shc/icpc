@@ -40,7 +40,7 @@ if [ ! -f "$CPP_FILE" ]; then
 fi
 
 # Compilation flags (Debug with sanitizers)
-FLAGS="-std=c++17 -Wall -Wextra -fdiagnostics-color=always -Wshadow -Wno-sign-compare -ggdb3 -DDEBUG -fsanitize=address,undefined"
+FLAGS="-std=c++17 -Wall -Wextra -O2 -fdiagnostics-color=always -Wshadow -Wno-sign-compare -ggdb3 -DDEBUG -fsanitize=address,undefined -pedantic -fno-sanitize-recover"
 
 # Compile silently
 g++ $FLAGS "$CPP_FILE" -o "$OUTPUT_FILE"

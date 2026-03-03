@@ -2,11 +2,13 @@
 
 typedef long long ll;
 typedef unsigned long long ull;
+typedef std::vector<ll> vll;
 
 const long long NEG = (long long)-4e18;
 
 #ifdef DEBUG
 #define _GLIBCXX_DEBUG
+#define _GLIBCXX_DEBUG_PEDANTIC
 
 // Enhanced DBG macro with variable = value format, strings print directly
 #define DBGLN(...)                                  \
