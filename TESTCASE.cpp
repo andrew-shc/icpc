@@ -9,7 +9,7 @@ const long long NEG = (long long)-4e18;
 #define _GLIBCXX_DEBUG
 
 // Enhanced DBG macro with variable = value format, strings print directly
-#define DBG(...)                                    \
+#define DBGLN(...)                                  \
     do                                              \
     {                                               \
         _dbg_print_vars(#__VA_ARGS__, __VA_ARGS__); \
@@ -17,7 +17,7 @@ const long long NEG = (long long)-4e18;
     } while (0)
 
 // DBG with no newline
-#define DBGN(...)                                   \
+#define DBG(...)                                    \
     do                                              \
     {                                               \
         _dbg_print_vars(#__VA_ARGS__, __VA_ARGS__); \
