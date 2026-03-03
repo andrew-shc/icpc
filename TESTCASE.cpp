@@ -123,8 +123,8 @@ void _dbg_print_vars(const std::string &var_names, Args &&...args)
         _Pragma("GCC diagnostic pop")                              \
     } while (0)
 #else
+#define DBGLN(...)
 #define DBG(...)
-#define DBGN(...)
 #define DBG_ITER(arr)
 #endif
 
