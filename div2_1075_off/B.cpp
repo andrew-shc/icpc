@@ -172,4 +172,126 @@ int main()
 
 void solve([[maybe_unused]] ll T)
 {
+    // strat: 1st pick every jump (sum finite max) then pick the highest delta
+    ll n, x;
+    cin >> n >> x;
+
+    dll delta;
+    dll finite_max; // max jump traversal before the first rollback
+    // ll finite_max_all = 0;
+    // vll as;
+    // vll bs;
+
+    // if (T == 8673)
+    //     cout << n << "-" << x << "-";
+
+    for (int i = 0; i < n; i++)
+    {
+        ll a, b, c;
+        cin >> a >> b >> c;
+
+        // if (T == 8673)
+        //     cout << "|" << a << "-" << b << "-" << c << "-";
+
+        ll d = b * a - c;
+        if (d > 0)
+        {
+
+            // if there are multiple max deltas, weird things happen
+            //   if the magic associated with the FIRST max delta has b=1 (no finite max)
+            if (b != 1)
+            {
+
+                delta.push_front(d);
+                // as.push_back(a);
+                // bs.push_back(b);
+                finite_max.push_front((b - 1) * a);
+            }
+            else
+            {
+                delta.push_back(d);
+                // as.push_back(a);
+                // bs.push_back(b);
+                finite_max.push_back((b - 1) * a);
+            }
+        }
+        x -= (b - 1) * a;
+    }
+
+    if (x <= 0)
+    {
+        // without any rollbacks we are able to reach to x
+        cout << 0 << endl;
+    }
+    else
+    {
+        // now we have used (b-1) attempts for each jump magic
+
+        if (delta.size() == 0)
+        { // no positive delta == any future jumps will only decrease
+            cout << -1 << endl;
+        }
+        else
+        {
+            // if there's even one => possible
+
+            // somehow balance between highest deltas and highest finite max
+            // find the highest finite max <-- will be our final action
+            // find the highest delta <-- for reaching to the end
+
+            ll max_fm = *max_element(finite_max.begin(), finite_max.end());
+            ll max_d = *max_element(delta.begin(), delta.end());
+            ll max_d_fm = finite_max[distance(delta.begin(), max_element(delta.begin(), delta.end()))];
+            // ll max_d_b = bs[distance(delta.begin(), max_element(delta.begin(), delta.end()))];
+            // ll max_d_a = as[distance(delta.begin(), max_element(delta.begin(), delta.end()))];
+            // bool same = distance(delta.begin(), max_element(delta.begin(), delta.end())) == distance(finite_max.begin(), max_element(finite_max.begin(), finite_max.end()));
+            // if different, try max delta vs same element (if same element works, we can conserve one rollback)
+            // ll max_fm_same = finite_max[distance(delta.begin(), max_element(delta.begin(), delta.end()))];
+
+            // based off of the solution... why not this?
+            // i see, if its different finite max thats larger, we would pick that, but it's already picked
+            // from the initial removal (we accidentally assumed rollback wont be applied since it was used once
+            //   but in reality we are using it twice then)
+            // ll strat_max = ((x - max_fm + max_d_fm + max_d - 1) / max_d) + (same ? 0 : 1);
+
+            ll strat_same = ((x + max_d - 1) / max_d);
+
+            DBGLN(x, max_fm, max_d_fm, max_d);
+            DBGLN(x, max_d);
+            // DBGLN(strat_max, strat_same);
+
+            // cout << min(strat_max, strat_same) << endl;
+            cout << strat_same << endl;
+
+            // number of rollbacks from largest delta
+            //  find the rollbacks as if we didnt apply the finite maxes as before
+            // the >0?1:0
+            //  convert the floor to ceil
+            // +1 for always using SINGLE largest finite max (since we all used b-1 attempts)
+            //  but no +1 if the max finite max is the same skill as for the max delta
+            //  since it was included as +max_d_fm when finding the factors of rollback
+        }
+    }
+
+    // // no positive deltas
+    // if (delta.size() == 0)
+    // {
+    //     if (x <= finite_max_all)
+    //     {
+    //         cout << 0 << endl;
+    //     }
+    //     else
+    //     {
+    //         cout << -1 << endl;
+    //     }
+    // }
+    // else
+    // {
+    //     ll max_d = *max_element(delta.begin(), delta.end());
+    //     ll max_i = distance(delta.begin(), max_element(delta.begin(), delta.end()));
+    //     ll max_a = as[max_i];
+    //     ll max_b = bs[max_i];
+
+    //     cout << x / max_d + ((x % max_d) > (max_b - 1) * max_a ? 1 : 0) << endl;
+    // }
 }

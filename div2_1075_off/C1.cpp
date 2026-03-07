@@ -3,7 +3,6 @@
 typedef long long ll;
 typedef unsigned long long ull;
 typedef std::vector<ll> vll;
-typedef std::deque<ll> dll;
 
 const long long NEG = (long long)-4e18;
 

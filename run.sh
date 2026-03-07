@@ -47,6 +47,7 @@ g++ $FLAGS "$CPP_FILE" -o "$OUTPUT_FILE"
 
 # Check if compilation was successful and run
 if [ $? -eq 0 ]; then
+    echo "✅ Compilation succeeded"
     "$OUTPUT_FILE"
 else
     echo "❌ Compilation failed" >&2
