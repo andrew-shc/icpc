@@ -3,6 +3,8 @@
 typedef long long ll;
 typedef unsigned long long ull;
 typedef std::vector<ll> vll;
+typedef std::vector<std::string> vs;
+typedef std::deque<ll> dll;
 
 const long long NEG = (long long)-4e18;
 
@@ -169,6 +171,75 @@ int main()
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+// 20:56
+
 void solve([[maybe_unused]] ll T)
 {
+    int n, k;
+    cin >> n >> k;
+
+    vector<set<char>> invariant_strips(n);
+    for (int i = 0; i < k; i++)
+    {
+        string s;
+        cin >> s;
+        for (int j = 0; j < n; j++)
+        {
+            invariant_strips[j].insert(s[j]);
+        }
+    }
+
+    for (int i = 1; i <= n; i++)
+    {
+        if (n % i == 0)
+        {
+            bool success = true;
+            vector<set<char>> t;
+            for (int j = 0; j < i; j++)
+            {
+                set<char> intersection = invariant_strips[j];
+
+                for (int l = i + j; l < n; l += i)
+                {
+                    set<char> temp_intersection;
+                    set_intersection(
+                        intersection.begin(), intersection.end(),
+                        invariant_strips[l].begin(), invariant_strips[l].end(),
+                        inserter(temp_intersection, temp_intersection.begin()));
+
+                    intersection = temp_intersection;
+
+                    if (intersection.empty())
+                    {
+                        success = false;
+                        break;
+                    }
+                }
+
+                if (!success)
+                {
+                    break;
+                }
+
+                t.push_back(intersection);
+            }
+
+            if (success)
+            {
+                for (int m = 0; m < n; m++)
+                {
+                    cout << *t[m % i].begin();
+                }
+                cout << endl;
+                return;
+            }
+        }
+    }
+
+    DBGLN(T);
+    for (int i = 0; i < n; i++)
+    {
+        DBG(i, " ");
+        DBG_ITER(invariant_strips[i]);
+    }
 }
