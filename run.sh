@@ -42,8 +42,12 @@ fi
 # Compilation flags (Debug with sanitizers)
 FLAGS="-std=c++17 -Wall -Wextra -O2 -fdiagnostics-color=always -Wshadow -Wno-sign-compare -ggdb3 -DDEBUG -fsanitize=address,undefined -pedantic -fno-sanitize-recover"
 
+# Add include path for shared headers (script directory and current folder)
+SCRIPT_DIR=$(dirname "$0")
+INCLUDE_PATH="-I${SCRIPT_DIR} -I${FOLDER}"
+
 # Compile silently
-g++ $FLAGS "$CPP_FILE" -o "$OUTPUT_FILE"
+g++ $FLAGS $INCLUDE_PATH "$CPP_FILE" -o "$OUTPUT_FILE"
 
 # Check if compilation was successful and run
 if [ $? -eq 0 ]; then
