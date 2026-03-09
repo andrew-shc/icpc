@@ -125,10 +125,30 @@ void _dbg_print_vars(const std::string &var_names, Args &&...args)
         cout << "]" << endl;                                       \
         _Pragma("GCC diagnostic pop")                              \
     } while (0)
+
+#define DBG_MAP(map_var)                                                       \
+    do                                                                         \
+    {                                                                          \
+        _Pragma("GCC diagnostic push")                                         \
+            _Pragma("GCC diagnostic ignored \"-Wshadow\"")                     \
+                std::string _dbg_name = #map_var;                              \
+        cout << std::setw(8) << std::right << _dbg_name << " = [";             \
+        bool _dbg_first = true;                                                \
+        for (const auto &_dbg_pair : map_var)                                  \
+        {                                                                      \
+            if (!_dbg_first)                                                   \
+                cout << ", ";                                                  \
+            cout << "(" << _dbg_pair.first << ", " << _dbg_pair.second << ")"; \
+            _dbg_first = false;                                                \
+        }                                                                      \
+        cout << "]" << endl;                                                   \
+        _Pragma("GCC diagnostic pop")                                          \
+    } while (0)
 #else
 #define DBGLN(...)
 #define DBG(...)
 #define DBG_ITER(arr)
+#define DBG_MAP(map_var)
 #endif
 
 using namespace std;
@@ -169,6 +189,9 @@ int main()
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
+
+// start:
+//   end:
 
 void solve([[maybe_unused]] ll T)
 {

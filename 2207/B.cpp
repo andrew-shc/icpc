@@ -125,10 +125,30 @@ void _dbg_print_vars(const std::string &var_names, Args &&...args)
         cout << "]" << endl;                                       \
         _Pragma("GCC diagnostic pop")                              \
     } while (0)
+
+#define DBG_MAP(map_var)                                                       \
+    do                                                                         \
+    {                                                                          \
+        _Pragma("GCC diagnostic push")                                         \
+            _Pragma("GCC diagnostic ignored \"-Wshadow\"")                     \
+                std::string _dbg_name = #map_var;                              \
+        cout << std::setw(8) << std::right << _dbg_name << " = [";             \
+        bool _dbg_first = true;                                                \
+        for (const auto &_dbg_pair : map_var)                                  \
+        {                                                                      \
+            if (!_dbg_first)                                                   \
+                cout << ", ";                                                  \
+            cout << "(" << _dbg_pair.first << ", " << _dbg_pair.second << ")"; \
+            _dbg_first = false;                                                \
+        }                                                                      \
+        cout << "]" << endl;                                                   \
+        _Pragma("GCC diagnostic pop")                                          \
+    } while (0)
 #else
 #define DBGLN(...)
 #define DBG(...)
 #define DBG_ITER(arr)
+#define DBG_MAP(map_var)
 #endif
 
 using namespace std;
@@ -170,6 +190,9 @@ int main()
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+// start:
+//   end:
+
 void solve([[maybe_unused]] ll T)
 {
     ll n, m, l;
@@ -184,28 +207,24 @@ void solve([[maybe_unused]] ll T)
     map<ll, ll> freq_map;
     freq_map[0] = m;
 
-    if (freq_map.empty())
-    {
-        cout << "?????????????????????????????????? " << m << endl;
-        return;
-    }
-
-    // if (T == 60)
+    // if (T == 83)
     // {
     //     cout << n << "-" << m << "-" << l << "-";
     // }
 
     DBGLN(T);
     // DBG_ITER(danger_levels);
-    for (int kkk = 0; kkk < n; kkk++)
+    for (int f = 0; f < n; f++)
     {
-        if (n - kkk + 1 < m)
+        if (n - f + 1 < m)
         {
-            ll num_to_be_removed = m - (n - kkk + 1);
+            ll num_to_be_removed = m - (n - f + 1);
+
+            DBGLN(f, num_to_be_removed);
 
             if (freq_map.empty())
             {
-                cout << "WTF?? x22222 ????????????????? " << kkk << endl;
+                cout << "WTF?? x22222 ????????????????? " << f << endl;
                 return;
             }
 
@@ -221,70 +240,17 @@ void solve([[maybe_unused]] ll T)
                     freq_map[smallest_key]--; // we can ignore an animal tronic thats already the smallest (pointless to increase)
                     //   if the number of remaining flashes is < the m
                 }
+                m--;
             }
         }
-
-        // ll prev_remainder = remainder;
-        // // ll prev_inc = increment;
-
-        // ll ai;
-        // cin >> ai;
-        // increment = ai - prev_ai;
-
-        // // m-remainder remaining remainders to go
-
-        // // DBGLN(">>>>>", increment);
-
-        // for (int j = prev_remainder; j < m; j++)
-        // {
-        //     if (increment == 0)
-        //     {
-        //         break;
-        //     }
-        //     danger_levels[j]++;
-        //     increment--;
-        // }
-
-        // // DBGLN("<<<<<", increment);
-
-        // ll factor = increment / m;
-        // remainder = increment % m;
-
-        // for (int j = 0; j < m; j++)
-        // {
-        //     danger_levels[j] += factor + ((j < remainder) ? 1 : 0);
-        // }
-
-        // // finished pre filling dangers
-
-        // // begin danger subtraction
-
-        // // end
-
-        // prev_ai = ai;
 
         ll ai;
         cin >> ai;
         increment = ai - prev_ai;
 
-        // if (T == 60)
+        // if (T == 83)
         // {
         //     cout << ai << "|";
-        // }
-
-        // sort(danger_levels.begin(), danger_levels.end());
-
-        // compute the frequency map
-        // for (auto &d : danger_levels)
-        // {
-        //     if (freq_map.count(d))
-        //     {
-        //         freq_map[d]++;
-        //     }
-        //     else
-        //     {
-        //         freq_map[d] = 1;
-        //     }
         // }
 
         if (freq_map.empty())
@@ -300,8 +266,7 @@ void solve([[maybe_unused]] ll T)
             val.push_back(p.first);
             freq.push_back(p.second);
         }
-        // DBG_ITER(val);
-        // DBG_ITER(freq);
+        DBG_MAP(freq_map);
         // DBGLN(increment);
 
         for (int i = 0; i < val.size() - 1; i++)
@@ -315,7 +280,7 @@ void solve([[maybe_unused]] ll T)
                 // merge smaller older val[i] with val[i+1]
 
                 freq_map.erase(val[i]);
-                // DBGLN(freq[i]);
+                DBGLN(freq[i]);
                 freq_map[val[i + 1]] += freq[i];
                 freq[i + 1] += freq[i];
             }
@@ -327,21 +292,40 @@ void solve([[maybe_unused]] ll T)
                 // =>   & val[i]+increment/freq[i]+1 @ freq=remainder
                 //  guarantee the new value not to exceed val[i+1]
 
+                DBG("AA> ");
+                DBG_MAP(freq_map);
+
                 ll factor = increment / freq[i];
                 ll remainder = increment % freq[i];
+
+                DBGLN("#>>>>", factor);
+                DBGLN("#>>>>", remainder);
 
                 freq_map.erase(val[i]);
                 freq_map[val[i] + factor] = freq[i] - remainder;
                 if (remainder > 0)
                 {
-                    freq_map[val[i] + factor + 1] = remainder;
+                    if (freq_map.count(val[i] + factor + 1))
+                    { // sometimes the difference within 1 which create situations where the excess remainder exists
+                        // on the next key
+                        freq_map[val[i] + factor + 1] += remainder;
+                    }
+                    else
+                    {
+                        freq_map[val[i] + factor + 1] = remainder;
+                    }
                 }
 
                 increment = 0;
 
+                DBG("BB> ");
+                DBG_MAP(freq_map);
+
                 break;
             }
-            // DBGLN(increment);
+            DBGLN(increment);
+            DBG("----->");
+            DBG_MAP(freq_map);
         }
         if (increment > 0)
         { // still some remaining increment after the last and largest index
@@ -350,8 +334,8 @@ void solve([[maybe_unused]] ll T)
             ll factor = increment / freq[I];
             ll remainder = increment % freq[I];
 
-            // DBGLN(">>>>", factor);
-            // DBGLN(">>>>", remainder);
+            DBGLN(">>>>", factor);
+            DBGLN(">>>>", remainder);
 
             freq_map.erase(val[I]);
             freq_map[val[I] + factor] = freq[I] - remainder;
@@ -361,19 +345,8 @@ void solve([[maybe_unused]] ll T)
             }
         }
 
-        // vector<ll> val1;
-        // vector<ll> freq1;
-        // for (auto &p : freq_map)
-        // {
-        //     val1.push_back(p.first);
-        //     freq1.push_back(p.second);
-        // }
-        // DBG("> ");
-        // DBG_ITER(val1);
-        // DBGLN("");
-        // DBG("> ");
-        // DBG_ITER(freq1);
-        // DBGLN("");
+        DBG("> ");
+        DBG_MAP(freq_map);
 
         prev_ai = ai;
 
@@ -411,15 +384,8 @@ void solve([[maybe_unused]] ll T)
         // DBG_ITER(danger_levels);
     }
 
-    // vector<ll> val;
-    // vector<ll> freq;
-    // for (auto &p : freq_map)
-    // {
-    //     val.push_back(p.first);
-    //     freq.push_back(p.second);
-    // }
-    // DBG_ITER(val);
-    // DBG_ITER(freq);
+    DBG("#> ");
+    DBG_MAP(freq_map);
 
     if (!freq_map.empty())
     {
@@ -444,5 +410,10 @@ void solve([[maybe_unused]] ll T)
 1
 1 4 4
 4
+
+1
+3 3 4
+2 3 4
+
 
 */
