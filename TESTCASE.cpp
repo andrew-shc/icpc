@@ -7,6 +7,41 @@ typedef std::deque<ll> dll;
 
 const long long NEG = (long long)-4e18;
 
+#define OUT_ITER(a)                 \
+    {                               \
+        for (auto &el : a)          \
+        {                           \
+            std::cout << el << " "; \
+        }                           \
+        std::cout << std::endl;     \
+    }
+
+template <typename... Args>
+void cout_vars(Args &...args)
+{
+    ((std::cout << args << " "), ...) << std::endl;
+}
+#define OUT(...) \
+    cout_vars(__VA_ARGS__)
+
+#define READ_VLL(a, n)         \
+    vll a;                     \
+    for (ll i = 0; i < n; i++) \
+    {                          \
+        ll ai;                 \
+        std::cin >> ai;        \
+        a.push_back(ai);       \
+    }
+
+template <typename... Args>
+void read_vars(Args &...args)
+{
+    (std::cin >> ... >> args);
+}
+#define READ(...)   \
+    ll __VA_ARGS__; \
+    read_vars(__VA_ARGS__)
+
 #ifdef DEBUG
 #include "debug.h"
 #else
