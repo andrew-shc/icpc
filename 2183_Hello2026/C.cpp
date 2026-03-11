@@ -7,128 +7,48 @@ typedef std::deque<ll> dll;
 
 const long long NEG = (long long)-4e18;
 
-#ifdef DEBUG
-#define _GLIBCXX_DEBUG
-#define _GLIBCXX_DEBUG_PEDANTIC
-
-// Enhanced DBG macro with variable = value format, strings print directly
-#define DBGLN(...)                                  \
-    do                                              \
-    {                                               \
-        _dbg_print_vars(#__VA_ARGS__, __VA_ARGS__); \
-        std::cout << std::endl;                     \
-    } while (0)
-
-// DBG with no newline
-#define DBG(...)                                    \
-    do                                              \
-    {                                               \
-        _dbg_print_vars(#__VA_ARGS__, __VA_ARGS__); \
-    } while (0)
-
-// Helper to split variable names
-std::vector<std::string> _split_vars(const std::string &names)
-{
-    std::vector<std::string> result;
-    std::string current;
-    int depth = 0;
-
-    for (char c : names)
-    {
-        if (c == ',' && depth == 0)
-        {
-            size_t start = current.find_first_not_of(" \t");
-            size_t end = current.find_last_not_of(" \t");
-            if (start != std::string::npos)
-            {
-                result.push_back(current.substr(start, end - start + 1));
-            }
-            current.clear();
-        }
-        else
-        {
-            if (c == '(' || c == '[' || c == '{')
-                depth++;
-            if (c == ')' || c == ']' || c == '}')
-                depth--;
-            current += c;
-        }
+#define OUT_ITER(a)                 \
+    {                               \
+        for (auto &el : a)          \
+        {                           \
+            std::cout << el << " "; \
+        }                           \
+        std::cout << std::endl;     \
     }
-
-    size_t start = current.find_first_not_of(" \t");
-    size_t end = current.find_last_not_of(" \t");
-    if (start != std::string::npos)
-    {
-        result.push_back(current.substr(start, end - start + 1));
-    }
-
-    return result;
-}
-
-// Print value based on type - strings print directly, others with variable name
-template <typename T>
-void _dbg_print_single(const std::string &name, T &&t)
-{
-    if constexpr (std::is_same_v<std::decay_t<T>, std::string> ||
-                  std::is_same_v<std::decay_t<T>, const char *>)
-    {
-        std::cout << t; // Print string directly
-    }
-    else
-    {
-        std::cout << name << " = " << t; // Print with variable name
-    }
-}
-
-template <typename T>
-void _dbg_print_values(const std::vector<std::string> &names, int index, T &&t)
-{
-    if (index < names.size())
-    {
-        _dbg_print_single(names[index], std::forward<T>(t));
-    }
-}
-
-template <typename T, typename... Args>
-void _dbg_print_values(const std::vector<std::string> &names, int index, T &&t, Args &&...args)
-{
-    if (index < names.size())
-    {
-        _dbg_print_single(names[index], std::forward<T>(t));
-        if (sizeof...(args) > 0)
-            std::cout << ", ";
-    }
-    _dbg_print_values(names, index + 1, std::forward<Args>(args)...);
-}
 
 template <typename... Args>
-void _dbg_print_vars(const std::string &var_names, Args &&...args)
+void cout_vars(Args... args)
 {
-    auto names = _split_vars(var_names);
-    _dbg_print_values(names, 0, std::forward<Args>(args)...);
+    ((std::cout << args << " "), ...) << std::endl;
 }
-#define DBG_ITER(arr)                                              \
-    do                                                             \
-    {                                                              \
-        _Pragma("GCC diagnostic push")                             \
-            _Pragma("GCC diagnostic ignored \"-Wshadow\"")         \
-                std::string _dbg_name = #arr;                      \
-        cout << std::setw(8) << std::right << _dbg_name << " = ["; \
-        bool _dbg_first = true;                                    \
-        for (auto &_dbg_x : arr)                                   \
-        {                                                          \
-            if (!_dbg_first)                                       \
-                cout << ", ";                                      \
-            cout << _dbg_x;                                        \
-            _dbg_first = false;                                    \
-        }                                                          \
-        cout << "]" << endl;                                       \
-        _Pragma("GCC diagnostic pop")                              \
-    } while (0)
+#define OUT(...) \
+    cout_vars(__VA_ARGS__)
+
+#define READ_VLL(a, n)         \
+    vll a;                     \
+    for (ll i = 0; i < n; i++) \
+    {                          \
+        ll ai;                 \
+        std::cin >> ai;        \
+        a.push_back(ai);       \
+    }
+
+template <typename... Args>
+void read_vars(Args &...args)
+{
+    (std::cin >> ... >> args);
+}
+#define READ(...)   \
+    ll __VA_ARGS__; \
+    read_vars(__VA_ARGS__)
+
+#ifdef DEBUG
+#include "debug.h"
 #else
 #define DBGLN(...)
 #define DBG(...)
 #define DBG_ITER(arr)
+#define DBG_MAP(map_var)
 #endif
 
 using namespace std;
@@ -170,6 +90,97 @@ int main()
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+// start:
+//   end:
+
+/*
+6
+3 1 3
+3 3 2
+4 2 2
+3 2 1
+4 3 3
+7 7 4
+
+*/
+
 void solve([[maybe_unused]] ll T)
 {
+    READ(n, m, k);
+
+    // per editorial
+
+    // by proof, a+b+max(a,b)-1 <= m days to fit a,b
+    // use two pointers (with math, O(1) is definitely possible)
+
+    // assume we have just the base
+    ll a = 0; // left: <= k-1
+    ll b = 0; // right <= n-k
+    // ll global_m = 0;
+
+    bool flip = true;
+    while (a < k - 1 || b < n - k)
+    {
+        if (flip && a < k - 1)
+        {
+            a++;
+        }
+        else if (b < n - k)
+        {
+            b++;
+        }
+        flip = !flip;
+
+        ll local_m = a + b + max(a, b) - 1;
+
+        // DBGLN(a, b, k - 1, n - k, local_m, m);
+
+        if (local_m > m)
+        {
+            // restricted by m
+            OUT(a + b + 1 - 1); // +1 for the base, -1 for removing the pre-emptive increment
+            return;
+        }
+        // else
+        // {
+        //     global_m = local_m;
+        // }
+    }
+
+    // when m is so much to allow greater a,b
+    OUT(a + b + 1); // +1 for the base, (no -1 since the condition is first checked before incrementing at each it)
+    return;
+
+    // if (m >= 2 * (n - 1))  << per editorial, there's a better absolute lower bounds
+    // { // upper limit of days to maximize maxf
+    //     OUT(n);
+    //     return;
+    // }
+
+    // assuming the strat is
+    //  1st. 1/3 of doing nothing
+    //  2nd. 1/3 of moving the troops (all at once like batch processing) to the side with the largest
+    //  3rd. 1/3 of moving the remaining newly drafted troops to the smaller side
+
+    // works when k is middle (ie, both sides are equal length)
+    // what if one side is longer? => pick the larger side (while fitting the 1/3 model) to ensure
+    //   when we move the troops to the shorter side we dont have to wait for drafting
+    //   (drafting happens at k regardless of troop movement)
+    //      whereas doing it on the shorter side incur additional waiting days for the longer side or
+    //      expect inefficient troop movement (ie pre-maturely moving troops)
+    // if only one side is feasible (ie k=1 or k=n), this strat still works (the most efficient)
+    //    - know that moving troops back is inefficient/non-optimal (always keep or move troops away k)
+    //    - prematurely moving troops away at home base k is sub-optimal (esp when we can merge)
+
+    /////// ignore
+    // if the longest side is smaller than or equal to m/3 (we dont care about the smaller side)
+    //      [2*(m+2)]/3
+    // if the longest side is greater than m/3
+    ///////
+
+    // [2*(m+2)]/3
+
+    ll maxf = 0;
+
+    OUT(maxf);
 }

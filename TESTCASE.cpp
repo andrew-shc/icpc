@@ -17,7 +17,7 @@ const long long NEG = (long long)-4e18;
     }
 
 template <typename... Args>
-void cout_vars(Args &...args)
+void cout_vars(Args... args)
 {
     ((std::cout << args << " "), ...) << std::endl;
 }
