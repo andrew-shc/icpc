@@ -7,12 +7,6 @@ typedef std::deque<ll> dll;
 
 const long long NEG = (long long)-4e18;
 
-#define INC(i, n) \
-    for (ll i = 0; i < n; i++)
-
-#define DEC(i, n) \
-    for (ll i = n; i >= 0; i--)
-
 #define OUT_ITER(a)                 \
     {                               \
         for (auto &el : a)          \
@@ -105,4 +99,25 @@ int main()
 
 void solve([[maybe_unused]] ll T)
 {
+    READ(n, k);
+    string s;
+    cin >> s;
+    ll sleeps = 0;
+    ll inhibition = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (s[i] == '1')
+        {
+            inhibition = k;
+        }
+        else if (s[i] == '0' && inhibition > 0)
+        {
+            inhibition--;
+        }
+        else
+        {
+            sleeps++;
+        }
+    }
+    OUT(sleeps);
 }

@@ -7,12 +7,6 @@ typedef std::deque<ll> dll;
 
 const long long NEG = (long long)-4e18;
 
-#define INC(i, n) \
-    for (ll i = 0; i < n; i++)
-
-#define DEC(i, n) \
-    for (ll i = n; i >= 0; i--)
-
 #define OUT_ITER(a)                 \
     {                               \
         for (auto &el : a)          \
@@ -29,10 +23,6 @@ void cout_vars(Args... args)
 }
 #define OUT(...) \
     cout_vars(__VA_ARGS__)
-
-#define READ_S(s) \
-    string s;     \
-    cin >> s;
 
 #define READ_VLL(a, n)         \
     vll a;                     \
