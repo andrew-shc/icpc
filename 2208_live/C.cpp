@@ -104,6 +104,60 @@ int main()
 // start:
 //   end:
 
+// at what point *c > *(1-p/100)?
+// 100(1-c)=p
+// c == (1-p/100) does nothings
+
+// c > 1-p/100 => 1-c > p/100 => 100(1-c) > p
+
+// ~~~~~ WE ARE NOT DIVIDING (1-p/100)
+
+// S vs Sc(1-p/100)
+// c(1-p/100) > 1
+// c-cp/100 > 1
+// c > 1+cp/100
+// 100c > 100+cp
+
+// ~~~~~~~~~~~~~~~~~~ ^^^^ misunderstood
+
+// MAJOR OBSERVATION (O.3): adding a term c (ie, completing a task) affects all the fractions AFTER
+//     and ONLY AFTER the current task (via the current p) => BACKWARDS DP???
+//      O.3.1: doesn't this imply we always pick the last term? YES!! b/c it doesn't affect later terms (b/c it
+//              doesn't have a later term to affect via p)
+
 void solve([[maybe_unused]] ll T)
 {
+    READ(n);
+    vll c;
+    vll p;
+    INC(i, n)
+    {
+        ll ci, pi;
+        cin >> ci >> pi;
+        c.push_back(ci);
+        p.push_back(pi);
+    }
+
+    ld bdp[n];
+
+    bdp[n - 1] = c[n - 1];
+    DEC(i, n - 2)
+    {
+        bdp[i] = max(bdp[i + 1], (ld)c[i] + (1.L - ((ld)p[i]) / 100.L) * bdp[i + 1]);
+    }
+
+    // double s = 1.;
+    // INC(i, n)
+    // {
+    //     // if (100 * (1 - c[i]) > p[i])
+    //     // {
+    //     //     s *= c[i]
+    //     // }
+    //     if ((100 * c[i]) > (100 + c[i] * p[i]))
+    //     {
+    //         s *= (1. - (double)p[i] / 100.);
+    //     }
+    // }
+
+    OUT(bdp[0]);
 }

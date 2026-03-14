@@ -2,7 +2,6 @@
 
 typedef long long ll;
 typedef unsigned long long ull;
-typedef long double ld;
 typedef std::vector<ll> vll;
 typedef std::deque<ll> dll;
 
@@ -26,7 +25,7 @@ const long long NEG = (long long)-4e18;
 template <typename... Args>
 void cout_vars(Args... args)
 {
-    ((std::cout << std::fixed << std::setprecision(10) << args << " "), ...) << std::endl;
+    ((std::cout << args << " "), ...) << std::endl;
 }
 #define OUT(...) \
     cout_vars(__VA_ARGS__)
@@ -106,4 +105,56 @@ int main()
 
 void solve([[maybe_unused]] ll T)
 {
+    READ(n);
+    READ_VLL(a, n * n);
+
+    // unordered_set<ll> s(a.begin(), a.end());
+
+    unordered_map<ll, ll> m;
+    for (auto &el : a)
+    {
+        if (m.count(el) == 0)
+        {
+            m[el] = 1;
+        }
+        else
+        {
+            m[el]++;
+        }
+
+        // if (m.size() > 2)
+        // {
+        //     cout << "YES" << endl;
+        //     return;
+        // }
+    }
+
+    ll largest = 0;
+    for (auto &[k, v] : m)
+    {
+        if (v > largest)
+        {
+            largest = v;
+        }
+    }
+
+    if (largest <= ((n) * (n)-n))
+    {
+        cout << "YES" << endl;
+    }
+    // else if (largest == (n * n - 2 * n + 1))
+    // {
+    //     if (m.size() > 2)
+    //     {
+    //         cout << "YES" << endl;
+    //     }
+    //     else
+    //     {
+    //         cout << "NO" << endl;
+    //     }
+    // }
+    else
+    {
+        cout << "NO" << endl;
+    }
 }
