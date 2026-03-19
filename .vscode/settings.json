@@ -2,4 +2,7 @@
     "github.copilot.enable": {
         "cpp": false
     },
+    "[markdown]": {
+        "editor.wordWrap": "off"
+    }
 }
