@@ -72,29 +72,21 @@ using namespace std;
 ////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-void solve(ll T);
+void solve();
 
 int main()
 {
     /////////////////////////////////////////////////////////////////////
     //// comment out the sync when working with interactive problems ////
     /////////////////////////////////////////////////////////////////////
-    ios_base::sync_with_stdio(false);
+    // ios_base::sync_with_stdio(false);
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
 
     cin.tie(NULL);
     cout.tie(NULL);
 
-    ll T = 1;
-
-    cin >> T;
-
-    ll t = T;
-    while (t--)
-    {
-        solve(T - t);
-    }
+    solve();
 
     return 0;
 }
@@ -110,6 +102,35 @@ int main()
 // start:
 //   end:
 
-void solve([[maybe_unused]] ll T)
+void solve()
 {
+    ll L = 1;
+    ll R = 1000000;
+
+    ll M;
+    while (L != R) // easier just for testing itneractive
+    {
+        DBGLN(L, R);
+        if ((L + R) / 2 == M)
+        {
+            M++;
+        }
+        else
+        {
+            M = (L + R) / 2;
+        }
+        OUT(M);
+
+        READ_S(r);
+        if (r == ">=") // bug, take it literally that M itself is still a valid option
+        {
+            L = M;
+        }
+        else
+        {
+            R = M - 1;
+        }
+    }
+
+    OUT("!", (L + R) / 2);
 }
