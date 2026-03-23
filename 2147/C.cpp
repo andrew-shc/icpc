@@ -110,59 +110,6 @@ int main()
 // start:
 //   end:
 
-// REPHRASE:
-//      - every moments (the seconds it detected activity) are unique
-//      - given k, determine max possible TOTAL stay time (for all visitors' stay time summed)
-
-// O.1: the more overlaps, the more optimal it is => find a config where we overlap the visitors
-//      as much as possible
-//          => this is just > > > < < < like a pancake (the strat)
-// Q.1: how to make the strat O(n)?
-//      1. find the sum of k=1
-//      2. for k=2, we sum the diff of last and the first
-//              a b c d e f g h
-//                b c d e f g
-//              b-a+d-c+f-e+h-g --> c-b+e-d+g-f => -b,+g
-//              all odd elements gets added and all even elements gets subtracted (<-- odd/even flipped for this statement)
-//              for each increment of k, subtract the last and add the first and negate odd sums and even sums
-
 void solve([[maybe_unused]] ll T)
 {
-    READ(n);
-    READ_VLL(a, 2 * n);
-
-    ll evens = 0;
-    ll odds = 0;
-
-    for (int i = 0; i < 2 * n; i += 2)
-    {
-        odds += a[i]; // under 1-index
-    }
-    for (int i = 1; i < 2 * n; i += 2)
-    {
-        evens += a[i]; // under 1-index
-    }
-
-    vll r;
-    ll s = 0;
-    INC(k, n)
-    {
-        // evens - odds
-        // evens -= - a[n-k-1], odds -= a[k];  odds - evens
-
-        if (k % 2 == 0)
-        {
-            r.push_back(evens - odds + s);
-            evens -= a[2 * n - k - 1];
-            odds -= a[k];
-        }
-        else
-        {
-            r.push_back(odds - evens + s);
-            evens -= a[k];
-            odds -= a[2 * n - k - 1];
-        }
-        s += a[2 * n - k - 1] - a[k];
-    }
-    OUT_ITER(r);
 }

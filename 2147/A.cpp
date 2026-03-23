@@ -110,59 +110,57 @@ int main()
 // start:
 //   end:
 
-// REPHRASE:
-//      - every moments (the seconds it detected activity) are unique
-//      - given k, determine max possible TOTAL stay time (for all visitors' stay time summed)
+// rephrase:
+//      you are given two number line x & y
+//      you increase x and y in an alternating fashion starting with x
+//      you want the increment to match the the final x & y-pos with each subsequent step increasing in length
+//      x,y>0
 
-// O.1: the more overlaps, the more optimal it is => find a config where we overlap the visitors
-//      as much as possible
-//          => this is just > > > < < < like a pancake (the strat)
-// Q.1: how to make the strat O(n)?
-//      1. find the sum of k=1
-//      2. for k=2, we sum the diff of last and the first
-//              a b c d e f g h
-//                b c d e f g
-//              b-a+d-c+f-e+h-g --> c-b+e-d+g-f => -b,+g
-//              all odd elements gets added and all even elements gets subtracted (<-- odd/even flipped for this statement)
-//              for each increment of k, subtract the last and add the first and negate odd sums and even sums
+// consider x=5,y=3
+// 1,3,4... any more optimal or alternative steps? => optimal step is not just increasing the length by the minimum (ie 1)
+
+// consider x=60,y=35  // smaller steps
+// 10,15,20,25,30
+// 1,35,59 <--?
+
+// O.1: geometrically, you can never reach x==y since y0>x0 and x1>y0 suggesting the slope can never be =1 (didnt say x==y is impossible).
+//      (what a useless observation)
+
+// per editorial
+
+// you guess the cases and that other edge cases are impossible :(((
+
+// but important insight: k>3 jumps/moves can always be reduced to the base cases
+// proof: given ANY possible jumps to (x,y) via...
+//      x1<y1<x2<y2<x3<y3<x4<y4
+//      since x3<y3 => x3+x4 < y3+x4
+//      since x4<y4 => x3+x4 < y3+y4 (and hence, the last two steps can be merged, same thing can be applied with x is at the end)
+//      reducing to the 3 base cases shows that case x==y and other edge cases fails.
+
+// SUMMARY: START PROVING CONSTRUCTIVE GREEDY ON A (THE GREEDY UNINTUITIVE THAT IS SIMPLE)
+//      THIS PROBLEM A CANNOT BE RELIED ON SIMPLE OBSERVATIONS LIKE O.1,
+//      CONSIDER PROVING PER EDITORIAL
+//          IN THIS CASE, WE START WITH PROVING FOR ALL POSSIBLE CASES AND REDUCE IT DOWN TO FEW BASE CASES THAT JUST REQUIRES
+//          CONDITION CHECKING
 
 void solve([[maybe_unused]] ll T)
 {
-    READ(n);
-    READ_VLL(a, 2 * n);
+    READ(x, y);
 
-    ll evens = 0;
-    ll odds = 0;
-
-    for (int i = 0; i < 2 * n; i += 2)
+    if (x == 0 || y == 0)
     {
-        odds += a[i]; // under 1-index
+        OUT(1);
     }
-    for (int i = 1; i < 2 * n; i += 2)
-    {
-        evens += a[i]; // under 1-index
+    else if (x < y)
+    { // strat go x, then go y
+        OUT(2);
     }
-
-    vll r;
-    ll s = 0;
-    INC(k, n)
-    {
-        // evens - odds
-        // evens -= - a[n-k-1], odds -= a[k];  odds - evens
-
-        if (k % 2 == 0)
-        {
-            r.push_back(evens - odds + s);
-            evens -= a[2 * n - k - 1];
-            odds -= a[k];
-        }
-        else
-        {
-            r.push_back(odds - evens + s);
-            evens -= a[k];
-            odds -= a[2 * n - k - 1];
-        }
-        s += a[2 * n - k - 1] - a[k];
+    else if (x - 1 > y && y >= 2)
+    { // strat put x with 1, then put y, then put the remaining of x
+        OUT(3);
     }
-    OUT_ITER(r);
+    else
+    { // if x-y=1 => impossible?, x==y => impossible???? how do i prove them????
+        OUT(-1);
+    }
 }
