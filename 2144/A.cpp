@@ -6,8 +6,7 @@ typedef long double ld;
 typedef std::vector<ll> vll;
 typedef std::deque<ll> dll;
 
-const ll NEG = (long long)-4e18;
-const ll MOD = 998244353;
+const long long NEG = (long long)-4e18;
 
 #define INC(i, n) \
     for (ll i = 0; i < n; i++)
@@ -111,6 +110,90 @@ int main()
 // start:
 //   end:
 
+// modular arithmetic (mod summation): sum of mod = mod of sum
+// brute force? brute force => 3 loops => no brute force
+
+// O.1: if all 3 numbers are different or the same => we don't want 2 numbers to be the same
+//          => exhaustively find if any three subarray sums to the same???? (errrrr n^3???)
+
+// probably brute force
+
+// n^3 or n^2????
+// should be n^2 bruh
+// iterate l and iterate r via prefix sum
+
+// per editorial
+
+// MAJOR OBSERVATION: (s1+s2+s3)%3 == 0 WHENEVER s1,s2,s3 are ALL same or three-way unique!!!
+//              (know number theory next time or practice more on # theory :vomit:)
+// => get gid on number theory
+
 void solve([[maybe_unused]] ll T)
 {
+    READ(n);
+    READ_VLL(a, n);
+
+    // ll l = 0;
+    // ll r = 0;
+
+    // vll f(n, 0);
+    // INC(i, n)
+    // {
+    //     f[i] = a[i] % 3;
+    // }
+    // DBG_ITER(f);
+
+    vll ps(n, 0); // suffix sum not prefix sum
+    DEC(i, n - 1)
+    {
+        if (i == n - 1)
+        {
+            ps[n - 1] = a[n - 1];
+        }
+        else
+        {
+            ps[i] = a[i] + ps[i + 1];
+        }
+    }
+
+    for (ll l = 1; l < n - 1; l++)
+    {
+        for (ll r = l + 1; r < n; r++)
+        {
+            ll s1 = ps[0] - ps[l];
+            ll s2 = ps[l] - ps[r];
+            ll s3 = ps[r];
+
+            if (
+                (s1 % 3 == s2 % 3 && s2 % 3 == s3 % 3) ||                  // same remainder
+                (s1 % 3 != s2 % 3 && s2 % 3 != s3 % 3 && s1 % 3 != s3 % 3) // all different / unique
+            )
+            {
+                DBGLN(s1, s2, s3);
+                OUT(l, r);
+                return;
+            }
+        }
+    }
+
+    // ll s1 = 0;
+    // for (int i = 0; i < n - 2; i++)
+    // {
+    //     s1 += a[i];
+
+    //     for (int j = i + 1; j < n - 1; j++)
+    //     {
+    //         ll s2 = ps[i + 1] - ps[j];
+    //         ll s3 = ps[j];
+    //         for (int k = j + 1; k < n; k++)
+    //         {
+    //             s3 -= a[k - 1];
+    //             s2 += a[k - 1];
+
+    //             DBGLN(i, j, k, s1, s2, s3);
+    //         }
+    //     }
+    // }
+
+    OUT(0, 0);
 }
