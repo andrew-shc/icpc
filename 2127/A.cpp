@@ -1,12 +1,10 @@
 #include <bits/stdc++.h>
 
-using ll = long long;
-using ull = unsigned long long;
-using ld = long double;
-using vll = std::vector<ll>;
-using dll = std::deque<ll>;
-using pll = std::pair<ll, ll>;
-using vpll = std::vector<pll>;
+typedef long long ll;
+typedef unsigned long long ull;
+typedef long double ld;
+typedef std::vector<ll> vll;
+typedef std::deque<ll> dll;
 
 const ll NEG = (long long)-4e18;
 const ll MOD = 998244353;
@@ -113,6 +111,47 @@ int main()
 // start:
 //   end:
 
+// O.1: highest MEX is 3
+//      O.1.1: MEX can only be 0,1,2,3
+//          O.1.1.1: if MEX is 0 => 0 is not present => max-min=mex=0 => max=min => all 3 elements must be same (except 0)
+//          O.1.1.2: if MEX is 1 => 1 is not present => max-min=mex=1 => max=1+min => all 3 elements must have a range of 1 [IMPOSSIBLE] (~~~~~except 0,1; i.e., >=2)
+//                                                                                          ~~~~~~since range is 1, we have to go 2 or higher
+//                                                                                          to have 0, you must include 1 => don't include 1, you can't have 0 => MEX must be 0
+//          O.1.1.3: if MEX is 2 => 2 is not present => max-min=mex=2 => all 3 elements must be within a range of 2 (except 2; must include 0,1)
+//                                                                                          however, including 0 requires 2 => impossible
+//          O.1.1.4: if MEX is 3 => 3 is not present => all 3 elements be within a range of 3 (must include 0,1,2; except 3)
+//                                                                                          impossible
+//                  => all elements must be same (except 0)  [FINAL OBSERVATIOn]
+//      O.1.2: the range of 3-subarray can only be at those 4 MEX values
+// H.2: the test case suspiciously suggests all elements in the array must be the same
+//          counter example:
+
+// RE-SUMMARIZE (to condense this long observation for future problems)
+// THE IDEA: a subarray of 3 can only have MEX up to 3, and the max-min difference must always include 0 for MEX>=1 so the difference must equal to MEX => impossible
+
 void solve([[maybe_unused]] ll T)
 {
+    READ(n);
+    READ_VLL(a, n);
+    ll checker = -1;
+    INC(i, n)
+    {
+        DBGLN(i, checker, a[i]);
+        if (a[i] == 0)
+        {
+            OUT("NO");
+            return;
+        }
+
+        if (checker == -1)
+        {
+            checker = a[i];
+        }
+        else if ((a[i] != checker && a[i] != -1))
+        {
+            OUT("NO");
+            return;
+        }
+    }
+    OUT("YES");
 }

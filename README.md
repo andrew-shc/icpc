@@ -3,7 +3,7 @@ Personal checklist:
 - Don't pigeonhole on interpretation of any problem (esp. if you have strong prior bias on the setting/context of the problem)
 - Stuck? Pattern deduction by exploration of select existing difficult test cases (think eps-greedy exploration)
   - Don't just focus on the easier test cases; they don't provide a lot of info
-- WA on test >1? Start validating your own solution with your own test case before the first submission (esp. if it's easier to verify).
+- WA on test >1 (i.e., edge cases)? Start validating your own solution with your own test case before the first submission (esp. if it's easier to verify).
 
 Speed solving history
 | Contest     | A (=5) | B (=25)                              | Notes                                                                                                                                                                                  |
@@ -23,3 +23,4 @@ Speed solving history
 | 2144        | <-30   | <-30                                 | practice # theory.                                                                                                                                                                     |
 | 2139        | +2:00  | <-10                                 |                                                                                                                                                                                        |
 | 2134        | -0:59  | -19:39 (most beautiful problem ever) |                                                                                                                                                                                        |
+| 2127        | -23:07 | -38:23                               | A: annoying to implement; elegant deduction. Custom manual edge case validation helped a lot => need to do it more often.                                                              |
