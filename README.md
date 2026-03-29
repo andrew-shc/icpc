@@ -1,4 +1,5 @@
 Personal checklist:
+- Understanding a problem correctly and quickly is as important as solving the problem for god sake
 - Don't pigeonhole on strategy of any problem (esp. easier ones just because they're easy)
 - Don't pigeonhole on interpretation of any problem (esp. if you have strong prior bias on the setting/context of the problem)
 - Stuck? Pattern deduction by exploration of select existing difficult test cases (think eps-greedy exploration)
@@ -25,3 +26,4 @@ Speed solving history
 | 2134        | -0:59  | -19:39 (most beautiful problem ever) |                                                                                                                                                                                        |
 | 2127        | -23:07 | -38:23                               | A: annoying to implement; elegant deduction. Custom manual edge case validation helped a lot => need to do it more often.                                                              |
 | 2211 (live) | -1:00  | <-60:00                              |                                                                                                                                                                                        |
+| 2210 (live) | -2:00  | -8:00                                |                                                                                                                                                                                        |

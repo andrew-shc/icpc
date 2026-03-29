@@ -107,7 +107,7 @@ void _dbg_print_vars(const std::string &var_names, Args &&...args)
                 std::string _dbg_name = #arr;                      \
         cout << std::setw(8) << std::right << _dbg_name << " = ["; \
         bool _dbg_first = true;                                    \
-        for (auto &_dbg_x : arr)                                   \
+        for (const auto &_dbg_x : arr)                             \
         {                                                          \
             if (!_dbg_first)                                       \
                 cout << ", ";                                      \
