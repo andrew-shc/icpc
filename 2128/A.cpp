@@ -63,7 +63,6 @@ void read_vars(Args &...args)
 #define DBG(...)
 #define DBG_ITER(arr)
 #define DBG_MAP(map_var)
-#define DBLOCK if (false)
 #endif
 
 using namespace std;
@@ -116,4 +115,24 @@ int main()
 
 void solve([[maybe_unused]] ll T)
 {
+    READ(n, c);
+    READ_VLL(a, n);
+    sort(a.begin(), a.end()); // ascending order => smallest to largest
+
+    ll factor = 1;
+    ll coins = 0;
+    DEC(i, n - 1)
+    {
+        // phase 1 (if > c already, then skip)
+        if (a[i] * factor > c)
+        {
+            coins++;
+        }
+        else // phase 2 (if <= c, start upping the factor for the remaining weights until the smaller number no longer works until the next number that works)
+        {
+            factor *= 2;
+        }
+    }
+
+    OUT(coins);
 }

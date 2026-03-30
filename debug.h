@@ -136,3 +136,5 @@ void _dbg_print_vars(const std::string &var_names, Args &&...args)
         cout << "]" << endl;                                                   \
         _Pragma("GCC diagnostic pop")                                          \
     } while (0)
+
+#define DBLOCK if (true)

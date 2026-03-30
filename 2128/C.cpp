@@ -114,6 +114,36 @@ int main()
 // start:
 //   end:
 
+// problem so confusing
+
+// rephrase: everything depends on the choice of x where it selects the smallest index
+//      where the line graph of [a] first crosses down the (x)-line (or was never above in the first place)
+//      then the value of a@i itself is lifted up by the (x)-line (i.e., added)
+
+// given this, is there a list of choices of x that can make a (from the 0-line) follow [b]?
+
 void solve([[maybe_unused]] ll T)
 {
+    READ(n);
+    READ_VLL(b, n);
+
+    ll cur_min = b[0];
+    for (ll i = 1; i < n; i++)
+    {
+        if (cur_min > b[i])
+        {
+            cur_min = b[i];
+        }
+        else if (2 * cur_min - 1 < b[i])
+        {
+            OUT("NO");
+            return;
+        }
+    }
+    OUT("YES");
+
+    DBLOCK
+    {
+        // debug only code runs here
+    }
 }

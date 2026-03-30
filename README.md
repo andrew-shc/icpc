@@ -6,6 +6,12 @@ Personal checklist:
   - Don't just focus on the easier test cases; they don't provide a lot of info
 - WA on test >1 (i.e., edge cases)? Start validating your own solution with your own test case before the first submission (esp. if it's easier to verify).
 
+Speed solving history (II)
+| Contest | A (=5) | B (=25) | C (=45) |
+| ------- | ------ | ------- | ------- |
+|         |        |         |         |
+
+
 Speed solving history
 | Contest     | A (=5) | B (=25)                              | Notes                                                                                                                                                                                  |
 | ----------- | ------ | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -27,3 +33,4 @@ Speed solving history
 | 2127        | -23:07 | -38:23                               | A: annoying to implement; elegant deduction. Custom manual edge case validation helped a lot => need to do it more often.                                                              |
 | 2211 (live) | -1:00  | <-60:00                              |                                                                                                                                                                                        |
 | 2210 (live) | -2:00  | -8:00                                |                                                                                                                                                                                        |
+| 2128        | -3:42  | -23:06                               |                                                                                                                                                                                        |
