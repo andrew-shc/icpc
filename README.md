@@ -6,10 +6,14 @@ Personal checklist:
   - Don't just focus on the easier test cases; they don't provide a lot of info
 - WA on test >1 (i.e., edge cases)? Start validating your own solution with your own test case before the first submission (esp. if it's easier to verify).
 
+
+*: checked editorial
+**: WAs
+
 Speed solving history (II)
-| Contest | A (=5) | B (=25) | C (=45) |
-| ------- | ------ | ------- | ------- |
-|         |        |         |         |
+| Contest | A (=5)  | B (=25) | C (=60) |
+| ------- | ------- | ------- | ------- |
+| 2122    | -8:29** | +7:27   | <0:00*  |
 
 
 Speed solving history
