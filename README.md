@@ -1,19 +1,24 @@
 Personal checklist:
 - Understanding a problem correctly and quickly is as important as solving the problem for god sake
 - Don't pigeonhole on strategy of any problem (esp. easier ones just because they're easy)
+  - Don't spend extra time thinking elegant solutions in A since many As have very lax constraint that allows brute-forcing
 - Don't pigeonhole on interpretation of any problem (esp. if you have strong prior bias on the setting/context of the problem)
 - Stuck? Pattern deduction by exploration of select existing difficult test cases (think eps-greedy exploration)
   - Don't just focus on the easier test cases; they don't provide a lot of info
 - WA on test >1 (i.e., edge cases)? Start validating your own solution with your own test case before the first submission (esp. if it's easier to verify).
 
 
-*: checked editorial
-**: WAs
+*: checked editorial  
+⁑: checked tags & ratings (i.e., significantly influenced the process of problem solving *especially in the beginning*)
+†: checked the hidden judging test cases (for WA on 2 or more)
+‡: 1 WA  
+⹋: >=2 WAs
 
 Speed solving history (II)
-| Contest | A (=5)  | B (=25) | C (=60) |
-| ------- | ------- | ------- | ------- |
-| 2122    | -8:29** | +7:27   | <0:00*  |
+| Contest | A (=5)  | B (=25) | C (=60)  |
+| ------- | ------- | ------- | -------- |
+| 2122    | -8:29‡  | +7:27   | N/A*     |
+| 2119    | -26:52⹋ | +0:22‡  | -31:20†‡ |
 
 
 Speed solving history
