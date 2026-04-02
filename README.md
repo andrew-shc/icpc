@@ -8,17 +8,20 @@ Personal checklist:
 - WA on test >1 (i.e., edge cases)? Start validating your own solution with your own test case before the first submission (esp. if it's easier to verify).
 
 
-*: checked editorial  
-⁑: checked tags & ratings (i.e., significantly influenced the process of problem solving *especially in the beginning*)
-†: checked the hidden judging test cases (for WA on 2 or more)
-‡: 1 WA  
-⹋: >=2 WAs
+\*: checked tags & ratings (i.e., significantly influenced the process of problem solving *especially in the beginning*)
+⁑: checked the hidden judging test cases (for WA on 2 or more)
+⁂: checked editorial 
+†: WA on 1st (sample test case)
+‡: WA after 1st
+⹋: TLE / MLE
+✥: slept through (included in the time)
 
 Speed solving history (II)
-| Contest | A (=5)  | B (=25) | C (=60)  |
-| ------- | ------- | ------- | -------- |
-| 2122    | -8:29‡  | +7:27   | N/A*     |
-| 2119    | -26:52⹋ | +0:22‡  | -31:20†‡ |
+| Contest | A (=5)    | B (=25) | C (=60)  |
+| ------- | --------- | ------- | -------- |
+| 2122    | -8:29‡‡   | +7:27   | ⁂        |
+| 2119    | -26:52‡‡‡ | +0:22‡  | -31:20‡⁑ |
+| 2120    | -17:18    | -13:44✥ | +3:58‡   |
 
 
 Speed solving history
