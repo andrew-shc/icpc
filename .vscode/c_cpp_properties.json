@@ -9,11 +9,11 @@
                 "DEBUG"
             ],
             "compilerPath": "/usr/bin/g++",
-            "cStandard": "c17",
-            "cppStandard": "c++17",
+            "cStandard": "c20",
+            "cppStandard": "c++20",
             "intelliSenseMode": "linux-gcc-x64",
             "compilerArgs": [
-                "-std=c++17",
+                "-std=c++20",
                 "-O2",
                 "-Wall",
                 "-Wextra"

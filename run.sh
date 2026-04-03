@@ -40,7 +40,7 @@ if [ ! -f "$CPP_FILE" ]; then
 fi
 
 # Compilation flags (Debug with sanitizers)
-FLAGS="-std=c++17 -Wall -Wextra -O2 -fdiagnostics-color=always -Wshadow -Wno-sign-compare -ggdb3 -DDEBUG -fsanitize=address,undefined -pedantic -fno-sanitize-recover"
+FLAGS="-std=c++20 -Wall -Wextra -O2 -fdiagnostics-color=always -Wshadow -Wno-sign-compare -ggdb3 -DDEBUG -fsanitize=address,undefined -pedantic -fno-sanitize-recover"
 
 # Add include path for shared headers (script directory and current folder)
 SCRIPT_DIR=$(dirname "$0")
