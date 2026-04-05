@@ -1,4 +1,5 @@
 Personal checklist:
+- Know your MODs
 - Understanding a problem correctly and quickly is as important as solving the problem for god sake
 - Don't pigeonhole on strategy of any problem (esp. easier ones just because they're easy)
   - Don't spend extra time thinking elegant solutions in A since many As have very lax constraint that allows brute-forcing
@@ -8,21 +9,22 @@ Personal checklist:
 - WA on test >1 (i.e., edge cases)? Start validating your own solution with your own test case before the first submission (esp. if it's easier to verify).
 
 
-\*: checked tags & ratings (i.e., significantly influenced the process of problem solving *especially in the beginning*)  
+\*: (accidentally?) checked tags & ratings (i.e., significantly influenced the process of problem solving *especially in the beginning*)  
 ⁑: checked the hidden judging test cases (for WA on 2 or more)  
-⁂: checked editorial   
+⁂: checked editorial / unsolved   
 †: WA on 1st (sample test case)  
 ‡: WA after 1st  
 ⹋: TLE / MLE  
 ✥: slept through (included in the time)  
 
 Speed solving history (II)
-| Contest | A (=5)    | B (=25)  | C (=60)  |
-| ------- | --------- | -------- | -------- |
-| 2122    | -8:29‡‡   | +7:27    | ⁂        |
-| 2119    | -26:52‡‡‡ | +0:22‡   | -31:20‡⁑ |
-| 2120    | -17:18    | -13:44✥  | +3:58‡   |
-| 2188    | -10:47‡   | -12:41†† | -19:18✥  |
+| Contest | A (=5)      | B (=25)      | C (=60)     |
+| ------- | ----------- | ------------ | ----------- |
+| 2122    | -8:29‡‡     | +7:27        | ⁂           |
+| 2119    | -26:52‡‡‡   | +0:22‡       | -31:20‡⁑    |
+| 2120    | -17:18      | -13:44✥      | +3:58‡      |
+| 2188    | -10:47‡     | -12:41††     | -19:18✥     |
+| 2166    | <-60:00‡†‡‡ | <-120:00‡‡‡⁑ | ⁂ (<-60:00) |
 
 
 Speed solving history
