@@ -16,6 +16,7 @@ Personal checklist:
 ‡: WA after 1st  
 ⹋: TLE / MLE  
 ✥: slept through (included in the time)  
+x: queued for a long time
 
 Speed solving history (II)
 | Contest | A (=5)      | B (=25)      | C (=60)     |
@@ -28,6 +29,7 @@ Speed solving history (II)
 | 2109    | -8:03       | <-60:00†‡✥⁑  | ⁂ (<-30:00) |
 | 2107    | -3:13       | -61:20✥‡     | ⁂ (<-20:00) |
 | 2104    | -5:37       | +6:01        | +9:03✥      |
+| 2103    | -2:00       | -32:57       | <-60:00     |
 
 
 Speed solving history
