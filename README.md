@@ -1,4 +1,5 @@
 Personal checklist:
+- @= && no more ideas ? stop : stop within @<-20
 - Know your MODs
 - Understanding a problem correctly and quickly is as important as solving the problem for god sake
 - Don't pigeonhole on strategy of any problem (esp. easier ones just because they're easy)
@@ -31,6 +32,7 @@ Speed solving history (II)
 | 2104    | -5:37       | +6:01        | +9:03✥       |
 | 2103    | -2:00       | -32:57       | <-60:00      |
 | 2084    | -20:39      | -22:05       | ⁂ (<-120:00) |
+| 2092    | --          | +12:30       | +24:29       |
 
 
 Speed solving history
