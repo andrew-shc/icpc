@@ -110,7 +110,6 @@ Potential Solution (on top of generalized advice from online):
 * Plan:
   * **Just solve 2 1400-1700C (Div.2) everyday** *untimed/flexible* until effectively full solve rate
 
-
 \*: (accidentally?) checked tags & ratings (i.e., significantly influenced the process of problem solving *especially in the beginning*)  
 ⁑: checked the hidden judging test cases (for WA on 2 or more)  
 ⁂: checked editorial / unsolved   
