@@ -110,12 +110,14 @@ Potential Solution (on top of generalized advice from online):
 * Plan:
   * **Just solve 2 1400-1700C (Div.2) everyday** *untimed/flexible* until effectively full solve rate
 
-| C 1400-1700 problem | Solved | Notes                                                                                            |
-| ------------------- | ------ | ------------------------------------------------------------------------------------------------ |
-| 1990C               | ✅      |                                                                                                  |
-| 1993C               | ✅      |                                                                                                  |
-| 1989C               | ✅      |                                                                                                  |
-| 1983C               | ❌      | boring problem with a lot of permutation to consider (although might be what ICPC is styled as). |
+| C 1400-1700 problem | Solved | Notes                                                                                                                                                                                                                   |
+| ------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1990C               | ✅      |                                                                                                                                                                                                                         |
+| 1993C               | ✅      |                                                                                                                                                                                                                         |
+| 1989C               | ✅      |                                                                                                                                                                                                                         |
+| 1983C               | ❌      | boring problem with a lot of permutation to consider (although might be what ICPC is styled as).                                                                                                                        |
+| 1978C               | ❌      | misread the question as maximizing the team skill instead of following their fixed hiring process (made the q harder and still solved it; not resolving)                                                                |
+| 1974C               | ❌      | not writing code; div3C; we can cheat our way with maps (including the pair counting) by hashing the triplets explicitly and additionally counting each hits while subtracting if exact (b/c we want exactly ONE error) |
 
 \*: (accidentally?) checked tags & ratings (i.e., significantly influenced the process of problem solving *especially in the beginning*)  
 ⁑: checked the hidden judging test cases (for WA on 2 or more)  
