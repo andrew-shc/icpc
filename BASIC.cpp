@@ -13,7 +13,7 @@ const ll MOD = 998244353;
 
 #define II(i, n) for (ll i = 0; i < n; i++)
 
-#define DD(i, n) for (ll i = n; i >= 0; i--)
+#define DD(i, n) for (ll i = n - 1; i >= 0; i--)
 
 #define OIT(a)                                                                 \
   {                                                                            \
