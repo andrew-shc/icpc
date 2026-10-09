@@ -173,6 +173,7 @@ void solve([[maybe_unused]] ll T) {
   // START ACTUAL CODE
   //
   ;
-
+  I(x0, y0, R);
+  O(x0, y0 - R);
   ;
 }

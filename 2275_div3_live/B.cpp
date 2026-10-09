@@ -173,6 +173,37 @@ void solve([[maybe_unused]] ll T) {
   // START ACTUAL CODE
   //
   ;
+  I(n);
+  IS(s);
+  vll not_printed;
+  vll memory;
 
+  II(i, n) {
+    if (s[i] == '1') {
+      memory.PB(i + 1);
+    } else if (s[i] == '2') {
+      if (memory.size() == 0) {
+        // prints i (not printed remain empty)
+        // no the not_printed is prioritized
+
+      } else { // not-empty (print top of the memory)
+        memory.pop_back();
+        not_printed.PB(i + 1);
+      }
+    } else {
+      // immediately prints i
+    }
+  }
+
+  DBG_ITER(not_printed);
+  DBG_ITER(memory);
+
+  not_printed.reserve(not_printed.size() + memory.size());
+  not_printed.insert(not_printed.end(), memory.begin(), memory.end());
+
+  ST(not_printed);
+
+  O(not_printed.size()); // # of 1s
+  OIT(not_printed);
   ;
 }

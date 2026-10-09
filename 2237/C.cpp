@@ -143,7 +143,7 @@ int main() {
   return 0;
 }
 
-// start:
+// start: 21:23
 //   end:
 
 //
@@ -167,12 +167,44 @@ int main() {
 //
 //
 //
+// 3 2 1
+//
+// 2 5 1
+// 2 1 6
+// 1 3 6
+//
+// 3 1 3
+// 1 4 3
+// 1 3 7
+//
+// O.1: the last element if it's the min. will propogate to the first
+// ~~O.2: operations that decided to go at an earlier index will carry the extra
+//      increase back to the end (sub-optimal)~~ confused by my own diagram when
+//      3 1 3 is already a result from an operation done at a relatively earlier
+//      point
+// O.3: a_{i}+a_{i+1} < a_{i+1}+a_{i}+a_{i+1}
+//          (when there's a high peak somewhere earlier, avoid applying the
+//          operation later that creates additional overhead => sub-optimal)
+//          !!!! contradicts O.2
+//          conceptual error in O.2 disregard !!!!
+//
+//          => it is sub-optimal to apply operations at later indices (or any
+//          later operations after peak => any later operations when an
+//          operation at the earliest index is available [i.e., the first peak])
 
 void solve([[maybe_unused]] ll T) {
   //
   // START ACTUAL CODE
   //
   ;
-
-  ;
+  I(n);
+  IVLL(a, n);
+  II(i, n - 1) {
+    if (a[i] > a[i + 1]) {
+      ll tmp = a[i + 1];
+      a[i + 1] += a[i];
+      a[i] = tmp;
+    }
+  };
+  O(a[n - 1]);
 }

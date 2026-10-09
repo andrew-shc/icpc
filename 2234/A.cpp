@@ -143,8 +143,8 @@ int main() {
   return 0;
 }
 
-// start:
-//   end:
+// start: 0940
+//   end: 0953
 
 //
 //
@@ -167,12 +167,33 @@ int main() {
 //
 //
 //
+//
+// O.1: x,y=a1,a2 are restricted to elements in b
+// O.2: n=2 => always hold
+// O.3: a[] must be strictly decreasing << IMPORTANT OBSERVATION
+// O.4: since b must be positive (no zeros) which means no x mod x == 0 ==> NO
+//          DUPLICATES (after O.2)
+// O.5: we can just simply check if a[] is strictly decreasing (no
+//          adj-duplicates) and satisfies the equality
 
 void solve([[maybe_unused]] ll T) {
   //
   // START ACTUAL CODE
   //
   ;
-
-  ;
+  I(n);
+  IVLL(b, n);
+  ST(b);
+  if (n == 2) {
+    O(b[1], b[0]);
+  } else {
+    reverse(b.begin(), b.end());
+    II(i, n - 2) {
+      if (b[i] % b[i + 1] != b[i + 2]) {
+        O(-1);
+        return;
+      }
+    }
+    O(b[0], b[1]);
+  }
 }

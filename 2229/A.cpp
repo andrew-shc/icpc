@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <climits>
 
 using ll = long long;
 using ull = unsigned long long;
@@ -10,24 +11,6 @@ using vpll = std::vector<pll>;
 
 const ll NEG = (long long)-4e18;
 const ll MOD = 998244353;
-
-// prefix sum
-#define PS(v_ps, v_in)                                                         \
-  vll v_ps(v_in.size() + 1, 0);                                                \
-  for (ll i = 1; i < v_in.size() + 1; i++) {                                   \
-    v_ps[i] = v_ps[i - 1] + v_in[i];                                           \
-  }
-
-// suffix sum
-#define SS(v_ss, v_in)                                                         \
-  vll v_ss(v_in.size() + 1, 0);                                                \
-  for (ll i = n - 1; i >= 0; i--) {                                            \
-    v_ss[i] = v_ss[i + 1] + v_in[i];                                           \
-  }
-
-#define PB push_back
-#define PF push_front
-#define ST(v) std::sort(v.begin(), v.end())
 
 #define II(i, n) for (ll i = 0; i < n; i++)
 
@@ -143,8 +126,8 @@ int main() {
   return 0;
 }
 
-// start:
-//   end:
+// start: 1128
+//   end: 1137
 
 //
 //
@@ -173,6 +156,19 @@ void solve([[maybe_unused]] ll T) {
   // START ACTUAL CODE
   //
   ;
+  I(n);
+  IVLL(a, n);
 
-  ;
+  ll mx = LLONG_MIN;
+  ll mn = LLONG_MAX;
+  II(i, n) {
+    if (a[i] > mx) {
+      mx = a[i];
+    }
+    if (a[i] < mn) {
+      mn = a[i];
+    }
+  };
+  ll ops = (mx - mn + 1) / 2;
+  O(ops);
 }

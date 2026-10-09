@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <climits>
 
 using ll = long long;
 using ull = unsigned long long;
@@ -143,8 +144,8 @@ int main() {
   return 0;
 }
 
-// start:
-//   end:
+// start: 1651
+//   end: 1657
 
 //
 //
@@ -167,12 +168,22 @@ int main() {
 //
 //
 //
+//
+//
 
 void solve([[maybe_unused]] ll T) {
   //
   // START ACTUAL CODE
   //
   ;
-
+  I(n);
+  IVLL(a, n);
+  ll sum = 0;
+  ll mn = LLONG_MAX;
+  II(i, n) {
+    mn = min(a[i], mn);
+    sum += mn;
+  }
+  O(sum);
   ;
 }
