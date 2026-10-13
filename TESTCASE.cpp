@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <climits>
 
 using ll = long long;
 using ull = unsigned long long;
@@ -7,9 +8,6 @@ using vll = std::vector<ll>;
 using dll = std::deque<ll>;
 using pll = std::pair<ll, ll>;
 using vpll = std::vector<pll>;
-
-const ll NEG = (long long)-4e18;
-const ll MOD = 998244353;
 
 // prefix sum
 #define PS(v_ps, v_in)                                                         \
@@ -167,6 +165,9 @@ int main() {
 //
 //
 //
+
+// LLONG_MAX, LLONG_MIN
+const ll MOD = 998244353;
 
 void solve([[maybe_unused]] ll T) {
   //
