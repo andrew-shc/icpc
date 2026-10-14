@@ -13,7 +13,7 @@ using vpll = std::vector<pll>;
 #define PS(v_ps, v_in)                                                         \
   vll v_ps(v_in.size() + 1, 0);                                                \
   for (ll i = 1; i < v_in.size() + 1; i++) {                                   \
-    v_ps[i] = v_ps[i - 1] + v_in[i];                                           \
+    v_ps[i] = v_ps[i - 1] + v_in[i - 1];                                       \
   }
 
 // suffix sum
@@ -44,6 +44,8 @@ template <typename... Args> void cout_vars(Args... args) {
       << std::endl;
 }
 #define O(...) cout_vars(__VA_ARGS__)
+#define OHYES std::cout << "YES" << std::endl
+#define OHNO std::cout << "NO" << std::endl
 
 #define IS(s)                                                                  \
   string s;                                                                    \
