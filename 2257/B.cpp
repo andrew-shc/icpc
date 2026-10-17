@@ -141,8 +141,8 @@ int main() {
   return 0;
 }
 
-// start:
-//   end:
+// start: 1756
+//   end: 1809
 
 //
 //
@@ -174,6 +174,24 @@ void solve([[maybe_unused]] ll T) {
   // START ACTUAL CODE
   //
   ;
+  I(n, m);
+  IVLL(a, n); // giant 1 Bea
+  IVLL(b, m); // giant 2 Ver
 
-  ;
+  ll giant1_space = a[n - 1];
+  II(i, n - 1) { giant1_space += a[i] - a[i + 1] + (a[i + 1] != 0 ? 1 : 0); }
+
+  ll giant2_space = b[m - 1];
+  II(i, m - 1) { giant2_space += b[i] - b[i + 1] + (b[i + 1] != 0 ? 1 : 0); }
+
+  // giant 1 goes first
+  // whoever lands on 0 with no mountains ahead loses
+  // if Bea >= Ver: Bea wins (1)
+  // if Bea < Ver: Ver wins (2)
+
+  if (giant1_space >= giant2_space) {
+    O(1);
+  } else {
+    O(2);
+  };
 }

@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #include <climits>
+#include <unordered_map>
 
 using ll = long long;
 using ull = unsigned long long;
@@ -141,8 +142,8 @@ int main() {
   return 0;
 }
 
-// start:
-//   end:
+// start: 1736
+//   end: 1753
 
 //
 //
@@ -174,6 +175,40 @@ void solve([[maybe_unused]] ll T) {
   // START ACTUAL CODE
   //
   ;
+  I(n, m);
+  vector<string> words;
+  vector<string> abbrvs;
+  unordered_map<char, ll> abbrv_indexing;
+  II(i, n) {
+    string word;
+    cin >> word;
+    words.PB(word);
 
-  ;
+    abbrv_indexing[word[0]]++;
+  }
+  bool no = false;
+  II(i, m) {
+    string abbrv;
+    cin >> abbrv;
+    abbrvs.PB(abbrv);
+
+    // 50000 quad. soln. is fine
+    // 50000 is not fine but it is actually
+    // 20x100x500? = 2000x500 = 1,000,000... no?
+
+    II(j, abbrv.size()) {
+      if (abbrv_indexing[tolower(abbrv[j])] == 0) {
+        no = true;
+        // O("NO");
+        // return;
+      }
+    }
+
+    abbrv_indexing[tolower(abbrv[0])]++;
+  }
+  if (no) {
+    O("NO");
+    return;
+  }
+  O("YES");
 }

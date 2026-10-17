@@ -141,8 +141,8 @@ int main() {
   return 0;
 }
 
-// start:
-//   end:
+// start: 1806
+//   end: 1814
 
 //
 //
@@ -174,6 +174,28 @@ void solve([[maybe_unused]] ll T) {
   // START ACTUAL CODE
   //
   ;
+  I(n);
 
-  ;
+  // smallest: 2
+  // largest: n+1
+  bool largest_exist = true;
+  bool smallest_exist = true;
+  for (ll i = 2; i <= n + 1; i++) {
+    if (i <= n && (n + 1) % i == 0) {
+      largest_exist = false; // there exists a number i that divides the largest
+                             // => that does not exist
+    }
+    if (2 < i && i % 2 != 0) {
+      smallest_exist = false;
+      // there exists a larger number i that 2 does not divide it
+      // ==> smallest DNE
+    }
+  }
+  if (largest_exist || smallest_exist) {
+    // whenever the largest card is not divisible against all other n-1 cards
+    // OR, whenever the smallest card is DIVISIBLE to all n-1 larger cards
+    O("YES");
+  } else {
+    O("NO");
+  };
 }
