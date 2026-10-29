@@ -51,12 +51,20 @@ template <typename... Args> void cout_vars(Args... args) {
   string s;                                                                    \
   cin >> s;
 
-#define IVLL(a, n)                                                             \
+#define IV(a, n)                                                               \
   vll a;                                                                       \
   for (ll i = 0; i < n; i++) {                                                 \
     ll ai;                                                                     \
     std::cin >> ai;                                                            \
     a.push_back(ai);                                                           \
+  }
+
+#define IVP(ap, n)                                                             \
+  vpll ap;                                                                     \
+  for (ll i = 0; i < n; i++) {                                                 \
+    ll ai, bi;                                                                 \
+    std::cin >> ai >> bi;                                                      \
+    ap.push_back({ai, bi});                                                    \
   }
 
 template <typename... Args> void read_vars(Args &...args) {
@@ -133,6 +141,7 @@ int main() {
 
   ll T = 1;
 
+  // comment out when working w/o testcases
   cin >> T;
 
   ll t = T;

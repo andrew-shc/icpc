@@ -221,8 +221,51 @@ int main() {
 //      other position from the current clock's position, then this process can
 //      continue forever
 //
-//
 // double check later
+//
+//
+// double checking:
+// the idea is that every clock needs to be reachable to all
+//      other clock
+//
+// and that the comparison between clocks time and roundtrip disance is
+// invariant to any decision of resetting clocks in between the two clocks
+// location
+//
+//
+// IMPL:
+//  for each a[i]:
+//      ensure a[i]>(n-1)*2
+//
+//      4 4 4
+//      3 3 3 --
+//      3 4 3
+//      2 3 2 --
+//      2 3 4
+//      1 2 3 --
+//      1 4 3
+//      0 3 2 --
+//
+//      more rigoursly
+//
+//      left-most element obvisouly need >(n-1)*2
+//      middle element just needs >max(1@i-1, n-1@i)*2
+//          if we assume we need to zigzag back and forth
+//          or rather we must enable the ability to zigzag
+//              (and zigzag is the fastest most optimal path to travel)
+//          so technically 5 3 5 is fine
+//                         4 2 4 --
+//                         4 3 4
+//                         3 2 3 --
+//                         3 2 5
+//                         2 1 4 --
+//                         2 3 4
+//                         1 2 3 --
+//                         5 2 3
+//                         5 1 2 --
+//                         5 3 1
+//                         4 2 5
+//
 //
 //
 
@@ -236,6 +279,32 @@ void solve([[maybe_unused]] ll T) {
   ;
   I(n);
   IVLL(a, n);
+
+  // bool impossible = true;
+  bool possible = true;
+  II(i, n) {
+    DBGLN(i, a[i], i, n - (i + 1), max(i, n - (i + 1)) * 2,
+          a[i] > max(i, n - (i + 1)) * 2);
+    if (a[i] > max(i, n - (i + 1)) * 2) {
+      // impossible as it is
+      DBGLN("IMPOSSIBLE!");
+      // possible = false;
+      // break;
+    } else {
+      // fine
+      DBGLN("POSSIBLE");
+      // impossible = false;
+      possible = false;
+      break;
+    }
+  }
+
+  // if (impossible) {
+  if (!possible) {
+    OHNO;
+  } else {
+    OHYES;
+  }
 
   ;
 }

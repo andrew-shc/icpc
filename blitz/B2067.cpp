@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #include <climits>
+#include <unordered_map>
 
 using ll = long long;
 using ull = unsigned long long;
@@ -194,12 +195,31 @@ int main() {
 //
 //
 // TC-2 confusing..
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^^^^
 //
 // 6
 // 2 2 2 4 4 4
 //
+// (2 2 4 4) (2 4)
+//    ^
+//    once this ++'d => becomes 3 which will not happen on either bag unless the
+//    4 2s?
+//    KEY PROBLEM: the original pre-condition of requiring the number in bag 1
+//    to be present in bag 2 also operates and modifies the same number that
+//    breaks the pre-cond
 //
 // look back later
+//
+//
+// going from least to most
+// 2 2 2 4 4 4
+//     ^
+//     every odd amount of duplicates: either leave it and say immediately no
+//          or TRY with +1 (if only a single element itself => NO)
+//          on the next integer redo the process
+//
+//          just simply iterate going up one by one with n up to 1000 at most
+//
 //
 
 // LLONG_MAX, LLONG_MIN
@@ -212,5 +232,81 @@ void solve([[maybe_unused]] ll T) {
   ;
   I(n); // even always
   IVLL(a, n);
+
+  vll freq(n, 0);
+  II(i, n) { freq[a[i] - 1]++; }
+
+  // BY TESTCASE: it is greedy to actually keep the 2 but increase rest of the
+  // extranouse numbers higher
+  // and is unrelated to the parities properties because the original duplicates
+  // can actuall self-increase like an unfolding stairs
+  //      (say a many duplicate at integer x, immediately it seems impossibel to
+  //      achieve x+2, but the moment we can get many of the x's to become
+  //      x+1's, x+2 becomes achievable)
+  // 2 2 2 2 2 2 becomes
+  // 2 2 3 3 3 3 becomes
+  // 2 2 3 3 4 4 so on and so forth
+
+  II(i, n) {
+    // if (freq[a[i] - 1] % 2 == 1 && freq[a[i] - 1] >= 3) {
+    // i not a[i]
+    if (freq[i] >= 3) {
+      if (i == n - 1) {
+        if (freq[n - 1] % 2 == 1) {
+          // %2==1, not just ==1, because this is the end
+          OHNO;
+          return;
+        } else {
+          // happily ever after
+        }
+      } else {
+        freq[i + 1] += freq[i] - 2;
+      }
+      // don't care about the current a[i]-1 since we will never look back (no
+      // regret)
+
+      // if (freq[a[i]] == 0) {
+      //   OHNO;
+      //   return;
+      // } else {
+      //   freq[a[i]]++;
+      // }
+    } else if (freq[i] == 1) {
+      OHNO;
+      return;
+    }
+  }
+  OHYES;
+
+  // ST(a);
+  // unordered_map<ll, ll> freq;
+  // map<ll, ll> freq; // KEY NOTE: ORDERED BY KEYS
+  // II(i, n) { freq[a[i]]++; }
+  //
+  // // using ordered map to ensure the updates are in order
+  // for (auto &[k, v] : freq) {
+  //   if (v % 2 == 1 && v >= 3) {
+  //     if (freq[k + 1] == 0) {
+  //       OHNO;
+  //       return;
+  //     } else {
+  //       freq[k + 1]++;
+  //     }
+  //   } else if (v == 1) {
+  //     OHNO;
+  //     return;
+  //   }
+  // }
+  // OHYES;
+
+  // even numbers are fine
+  // odd numbers -> it is GREEDY to always move the one up (no need for 3 or 5
+  // since O+O=E and the various parity properties of O/E)
+  //        and also impossible (breaks the chain) if one moves the
+  //        evenly-paired duplicates themselves
+  //
+  // check for any single elements!
+  // or, rather, check for any ODD numbers that have an empty, unfilled number
+  // next
   ;
 }

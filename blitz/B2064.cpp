@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #include <climits>
+#include <unordered_map>
 
 using ll = long long;
 using ull = unsigned long long;
@@ -195,8 +196,69 @@ void solve([[maybe_unused]] ll T) {
   ;
   I(n);
   IVLL(a, n);
-  ll l = 0;
-  ll r = 0;
-  O(l, r);
-  ;
+  if (n == 1) {
+    O(1, 1);
+    return;
+  }
+
+  unordered_map<ll, ll> freq;
+  II(i, n) { freq[a[i]]++; }
+
+  pll best = {0, 0}; // sentinel value (if all single-group n-duplicates, it's
+                     // best to avoid removing any)
+  // pll cur = {1, 1};
+  pll cur = {1, 0}; // make sure the current is also following the same rule
+  // II(i, n - 1) {
+  II(i, n) {
+    // if (a[i] != a[i + 1]) {
+    if (freq[a[i]] == 1) {
+      cur.second++;
+    } else {
+      // @i == @i+1
+      // or rather @i is duplicated
+
+      // always prefer actual value over the empty sentinel
+      // if (best.second - best.first < cur.second - cur.first ||
+      //     (cur.first == cur.second && cur.second > 0)) {
+      //
+      //     chatgpt says the above statement allows cur.first==cur.second a
+      //     freebie and replace any (including better longer interval) before
+      //     it
+      //
+      //     the easy elegant way is to use <= instead of <
+      //     by the nature of sentinel value {0,0}, we just want it replaced AS
+      //     SOON AS POSSIBLE whereas before we don't have sentinel values so we
+      //     just sort of think of it like minimal CPU processing when they're
+      //     the same maxes/mins
+      //
+      //     only b/c of the presences of sentinel values we need <=
+      if (best.second - best.first <= cur.second - cur.first) {
+
+        best = cur;
+      }
+
+      // set it to the supposedly the end of the duplicates
+      // if still duplicates wlil just move to the next one until the first
+      // difference
+      cur = {(i + 1) + 1, (i + 1)};
+      // on the first freq==1, it will ++ on the .second so it's best to do it
+      // -1 and also this creates a subarray length of -1 which will be
+      // auto-filted by the sentinel {0,0}
+    }
+  }
+  // if (a[n - 2] != a[n - 1]) {
+  //   cur.second++;
+  // }
+  // if (best.second - best.first < cur.second - cur.first ||
+  //     (cur.first == cur.second && cur.second > 0)) {
+  if (best.second - best.first <= cur.second - cur.first) {
+    best = cur;
+  }
+
+  if (best.first == best.second && best.second == 0) {
+    O(0);
+  } else {
+
+    O(best.first, best.second);
+  };
 }

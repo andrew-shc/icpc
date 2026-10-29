@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #include <climits>
+#include <unordered_map>
 
 using ll = long long;
 using ull = unsigned long long;
@@ -199,12 +200,44 @@ void solve([[maybe_unused]] ll T) {
   //
   ;
   I(n, m);
-  vector<vll> mat;
+  vector<vll>
+      mat; // NOTE: since we only care about the orthogonal/lateral
+           // adjacent cells, it doesn't matter what ordering the matrix is in
   II(i, n) {
     IVLL(a, m);
     mat.PB(a);
   };
 
+  bool two_exists = false;
+  unordered_map<ll, ll> cnt;
+  II(i, n) {
+    II(j, m) {
+      // remember, auto kv-access => auto inits to default (ll := 0)
+      // also prevents if it's already 2 then leave it
+      if (cnt[mat[i][j]] == 0) {
+        cnt[mat[i][j]] = 1;
+      }
+
+      if ((i > 1 && mat[i][j] == mat[i - 1][j]) ||
+          (i < n - 1 && mat[i][j] == mat[i + 1][j]) ||
+          (j > 1 && mat[i][j] == mat[i][j - 1]) ||
+          (j < m - 1 && mat[i][j] == mat[i][j + 1])) {
+        cnt[mat[i][j]] = 2;
+        two_exists = true;
+      }
+    }
+  }
+
   ll min_step = 0;
+  for (auto &[k, v] : cnt) {
+    min_step += v;
+  }
+
+  min_step--; // we don't need to modify the selected default color
+  if (two_exists) {
+    min_step--;
+    // set the color with two-step required as the default
+  }
+
   O(min_step);
 }

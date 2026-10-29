@@ -298,7 +298,186 @@ int main() {
 //
 //
 // stuck
-// `
+//
+//
+//
+// suppose b_1=1
+//
+// k=n-1
+// a: x * * x x x x x x x x
+// 1/2 1
+// b: 1 x x x x x x x x x x
+//
+// -> b_2=2
+//
+// k=n
+// a: x x x * x x x x x x x
+// b: x 2 x x x x x x x x x
+// k=n-1
+//
+// b: x 2
+//   1/2 2
+//
+// k=n-2:
+// b: x 2
+//  1/2/3
+//
+//
+//  whats the missing observation?
+//
+//
+// actually, a better observation is to slowly look in the order of b_i=i
+//      from where the first b_1=1 occurs, does the k support it?
+//      and conditions where b_2=2 should occur next
+//      and this is better because the moment the chain is broken we have  found
+//      our first b_i!=i
+//
+// think k as the remaining degrees of freedom
+//
+// if @2 = 1, no DoF used
+// if @i = 1, i-2 DoF used (assuming i>=2)
+//              which can be thought of as the more the 1 is misplaced
+//              the more k it has to use
+// optimal k=0
+//
+// x 1 x 2 x 3 x 4 x 5 x 6 x 7 x ...
+// x x 1 ? (always 1 is used)
+// either
+// [x x] [1] or [x] [x 1] (but the latter is actually invalid so just the 1st)
+//                          ^^ i think its this missing codified observation
+//                          that made the rest needlessly complicated
+// x x x 1 (always 2 used)
+//
+// regardless what happens before, invariant to before (inclusive 1)
+// v ... find the next 2
+// ~ 2 (~~~impossible) POSSIBLE as [~ 2]
+//
+// for every adjacent element, one DoF is used (to increase the earlier
+//      partition's length to accomodate the incoming b_i=i)
+// for any element separated by one, zero DoF is used
+// for any element separated by more than one, the same rule applies with i-2
+//      DoF used
+//
+// if multiple choices are present, it is OPTIMAL to be greedy on k
+//      (prefer spacing elements by one if possible)
+//
+//      if we're in a case like this
+//
+//      x 1 2 2 3
+//      by that logic, we should do
+//        *   * *
+//      but we need to take one DoF because 2/3 are adjacent
+//
+//        * *   *
+//      doing this is jsut as same (just moves the one DoF usage earlier)
+//
+//      but with the first logic, if there are say
+//      x 1 2 2 3 3 3 3
+//      the first logic supports the optiaml usage of k (by not using any DOF)
+//
+//      however, the second logic uses one DoF AOT in *anticipation* that the
+//      next group is ADJACENT but the anticipation is NOT always true, so it
+//      can result in needlessly take one additional k
+//
+//      (because what happens if after 3, worst-case it requires all k usage?
+//      the 2nd logic fails but 1st logic supports it that would yield an
+//      OPTIMAL PARTITIONING)
+//
+//
+//  what about
+//      x 1 2 x 2 3?
+//      does it matter? (both requires one DoF)
+//          in this case, it doesn't matter. upon 3, both decision results in an
+//          additional DoF required for 3 (unless cases like duplicate 3s like 3
+//          3 or 3 3 3)
+//
+//      [x] [1 2] [x] [2 3]
+//      [x] [1] [2 x] [2 3]
+//
+//      x 1 2 x 2 3 3
+//      [x] [1 2] [x 2] [3] [3]
+//      [x] [1 2] [x 2 3] [3]
+//      [x] [1] [2 x] [2 3] [3]
+//      [x] [1] [2 x] [2] [3] [3] << notice, same thing again. we just simple
+//                                  have MORE INFORMATION on the later usage of
+//                                  DoF to reduce the k-usage simply because the
+//                                  later elements might have duplicates to
+//                                  support one-off spacing (0 DoF usage)
+//
+//      edge case: when a higher element is in between say
+//
+//      x 1 2 3 2 3
+//
+//      [x] [1 2 3] [2 3]
+//      [x] [1 2] [3 2] [3]
+//      [x] [1] [2 3] [2 3]   << also noticed it seems like it is generlaly
+//                          preferred to have smaller subarrays that is as close
+//                          to their intended indices
+//
+//             in this case, the later 2 is better but only if the later 3 is
+//             present
+//
+//      no way this is DP
+//
+//      this can be more simply put:
+//          if adjacent conseuctive element: k--
+//          if 1-spaced: k==
+//          if >=2-spaced conseuctive element: k-=
+//
+// IMPL:
+//      find the earliest b_1=1 (@2... reduce k as needed)
+//      find the latest b_l=l
+//
+// ~~~~~O.5: a spacing of AT LEAST ONE between increasing consecutive elements
+// ~    are
+// ~    REQUIRED NONONONONONO
+//
+//
+// !!!!! post-editorial: (of course 2 paragraphs only => unlikely to be DP =>
+// !! some
+// !!!!! very dead simple observation missing)
+//
+//  if k=n: check array explicitly as intended
+//  if k=n-1: ONLY ONE b_i=i *can* be shifted 1 to the right
+//  if k=n-2: ONLY TWO b_i=i *can* be shifted 1 to the right (or ONLY ONE can be
+//              shifted 2 to the right)
+//
+//      it has a pattern of a summation of up to k (the different k the k DoF)
+//
+//      if shift left, k--
+//      if shift right, k--
+//          while both results in equal shift at the EOD,
+//          the shift left collapses the 1-space and squeezes it out to the
+//          right (k-- due to increasing the previous partition) while the shift
+//          right pulls the 1-space to 2-space (hence, k-- also)
+//
+//          but the invariant is shift left 1 (at most 1 really) and shift right
+//          1 is the same so shift left 1 can be folded into shift right 1
+//
+//          by this nature, shoudln't we prefer shift left 1? to promote more
+//          options to discover later b_i=i?
+//          it seems like this is some tradeoff to consider
+//              1. shift left to allow more options to find higher b_i=i
+//              2. shift right to minimize the k DoF usage (unless we know there
+//              will be surplus k??)
+//
+//
+// !!!!!!!!!!!!!!!! when it means optimal partioning IT MEANS OPTIMAL PARTIONING
+//                  SUCH THAT THE MIN COST IS REDUCED
+//                  => FIND THE PARTIONING S.T. b_i != i ON THE *LOWEST* i
+//
+// !!!!!!! by this logic, answer is at most 2 when all segments are 1
+// !        however, if, say, a 2 is present, we can always configure the
+//          subarrays to fold the 2 into the off-index (odd-index)
+//          or if all 2 but few 1s, fold all the 1s into the off-index so i=1
+//          is, again, the lowest or if 1s are all congregated in the beginning
+//          => 2
+//
+//          for a 3 to happen, it needs both i=1,i=2 to be covered in all
+//          exhaustive cases (which mostly seems impossible) since we can do all
+//          1s on the first (i=2) or all 2s on the first (i=1) and avoid both 1s
+//          and 2s in the first
+//
 
 // LLONG_MAX, LLONG_MIN
 const ll MOD = 998244353;
@@ -311,7 +490,34 @@ void solve([[maybe_unused]] ll T) {
   I(n, k); // k<=n, k is even, k is # of subarrays
   IVLL(a, n);
 
-  ll min_cost = 0;
+  ll min_cost = 1;
+  if (n == k) {
+    for (ll i = 1; i < n; i += 2) {
+      if (a[i] == min_cost) {
+        min_cost++;
+      } else {
+        break;
+      }
+    }
+  } else { // n-k (similiart to the editorial)
+           // if it is all 1 from 2 to 2+n-k
+    // for every decrease in subarray, the longer we can make the 1st subarray
+    // to be until the 1st el. of the 2nd subarray no longer is 1 (which then we
+    // can just make it b_1!=1 with min cost of 1)
+    bool all_ones = true;
+    for (ll i = 2; i <= 2 + n - k; i++) {
+      if (a[i - 1] != 1) {
+        all_ones = false;
+        break;
+      }
+    }
+    if (all_ones) {
+      min_cost = 2;
+    } else {
+      // pass
+      // we can use the not one as the 1st index
+    }
+  }
 
   O(min_cost);
   ;
