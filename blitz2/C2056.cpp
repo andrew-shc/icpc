@@ -175,6 +175,162 @@ int main() {
 //
 //
 //
+// just set it to all 1s??
+//
+//
+// 1 1 1 1 1 1
+//
+//
+// 2 2 2 2 2 2
+//
+// 1 2 3 1 2 3
+//
+// 1 1 2 1 1 1 (even => -1 longest plaindrome)
+// ~~~ * *   * * *
+//
+// 1 1 2 1 1 (+1)
+// 1 1 1 1 1 ~~(~~~~)  this is fine correct (5x*) actually 5!
+//
+//
+// 1 1 1 2 1 1 1 (odd => same.. :( ??? )
+//
+// wait by factorial all 1s should work no?
+//
+//
+// 1 1 1 1 1 1 (longest palindrome is 6)
+//              but 6! possible subsequence?
+//
+//
+// SUBSEQ, by definition, IS STILL ORDERED
+//  => we still need one deletion
+//
+// 1 1 2 1 1 1
+//
+// 1 1 2 1 1  => f(a)=5
+//
+// 1 1 2 1 1
+// 1 1   1 1 1
+//
+// ~~
+//   1   1 1 1
+// 1     1 1 1
+// 1 1     1 1
+// 1 1   1   1
+// 1 1   1 1
+// 1 1 2 1 1
+// ~~
+//
+// 1 1 1 2 1 1 1
+//~~~~~~~~~~~ ^^
+//
+//
+// 1 2 1 2 1 2
+//~~~~~~~~~~
+//
+// maybe instead of maximizing g(a), minimize f(a)?
+//
+//
+// 1 2 3 4 5 6  f(a)=1
+// 1
+//   2
+//     3
+//       4
+//         5
+//           6  g(a)=n (we want g(a)>n)
+//
+// 1 1 1 2 2 2  (intuitive observation? 3!>3 and 3!>3)
+//
+// 1 1 2 1 2 2
+//
+// 1   2 1
+//   1 2 1
+//     2 1 2
+//     2 1   2
+// 1 1 1
+//     2   2 2
+//
+//
+//
+// 1 2 2 1 1 2  but is f(a)=3???
+//
+// 1   2 1
+// 1   2   1
+// 1 2   1
+// 1 2     1
+//   2   1   2
+//     2 1   2
+//   2     1 2
+//     2   1 2
+//              g(a)>n
+//
+// f(a)=4 BECAUSE 2 1 1 2
+//
+// 1 2 1 1 1 1
+// 1 2 1
+// 1 2   1
+// 1 2     1
+// 1 2       1
+//     1 1 1
+//       1 1 1
+//     1   1 1
+//     1 1   1
+//              g(a)>n
+//           IS f(a)=3???
+// nope,
+//     1 1 1 1
+//
+// 1 2 1 1 2 1
+//
+// 1 2 1 2 1
+// but
+//
+// 1 2 1 1 3 1
+//
+// 1 2 1 3 1 no longer valid
+// but
+//
+// 1 2 1
+// 1 2   1
+// 1   1 1
+//     1 1   1
+//     1   3 1
+//       1 3 1
+//
+// but
+// 1    1 1   1
+//
+//
+// 1 2 4 1 3 1
+// 1     1   1
+// 1 2   1
+// 1   4 1
+//       1 3 1
+//
+//
+// 1 2 3 4 2 1 ??
+// 1 2     2 1 (nope)
+//
+// 1 2 3 4 5 1
+// 1 2       1
+// 1   3     1
+// 1     4   1
+// 1       5 1
+//
+//
+// 1 1 2 3 4 1
+// 1 1       1
+// 1   2     1
+// 1     3   1
+// 1       4 1
+//   1 2     1
+//   1   3   1
+//   1     4 1  g(a)>n
+//              f(a)=3??
+// base on the observation of TC.1, seems like this will be f(a)=3!!
+//
+// we only have 3 duplicates max (resulting in 2x1,?,1 combinations)
+//
+//
 //
 
 // LLONG_MAX, LLONG_MIN
@@ -185,6 +341,15 @@ void solve([[maybe_unused]] ll T) {
   // START ACTUAL CODE
   //
   ;
+  I(n); // n>=6
 
+  // vll a(1, n);
+  // vll a(n, 1);
+  // vll a = {1, 1};
+  vll a = {1};
+  II(i, n - 2) { a.PB(i + 1); }
+  a.PB(1);
+
+  OIT(a);
   ;
 }
