@@ -176,6 +176,31 @@ int main() {
 //
 //
 //
+// to check if an integer in [l,r] is good,
+//      we have to ensure all of its prime factorization is at least two digits
+//      <=> no prime factorization of single digits (2,3,5,7)
+//
+// P.1: an integer x is good if it is
+//          x%2 != 0 &&
+//          x%3 != 0 &&
+//          x%5 != 0 &&
+//          x%7 != 0
+//
+// tile-able cycles of 2*3*5*7=210 ???
+//
+// count the numbers of that does not satisfy within the tile-able cycle of 210
+//  from [  1,210] z-amnt doesnt satisfy
+//       [211,420] -z
+//       [421,630] -z
+//
+// so
+//
+//  [l,  210]
+//  [211,  r] ??
+//
+//
+//
+//
 
 // LLONG_MAX, LLONG_MIN
 const ll MOD = 998244353;
@@ -185,6 +210,48 @@ void solve([[maybe_unused]] ll T) {
   // START ACTUAL CODE
   //
   ;
+  I(l, r);
 
-  ;
+  auto check = [](ll x) {
+    return x % 2 != 0 && x % 3 != 0 && x % 5 != 0 && x % 7 != 0;
+  };
+
+  ll cycle_good = 0;
+
+  // 1-210,211-420,...
+  for (ll x = 1; x <= 210; x++) {
+    if (check(x)) {
+      cycle_good++;
+    }
+  }
+
+  ll l210 = 210 * ((l + 209) / 210);
+  ll r210 = 210 * (r / 210);
+
+  ll good = 0;
+
+  if (l210 - r210 == 210) {
+    // l210 > r210 and in terms of 210, this only happens when both l,r are
+    // within the same 210-cycle
+
+    for (ll x = l; x <= r; x++) {
+      if (check(x)) {
+        good++;
+      }
+    }
+  } else {
+    for (ll x = l; x <= l210; x++) {
+      if (check(x)) {
+        good++;
+      }
+    }
+    for (ll x = r210 + 1; x <= r; x++) {
+      if (check(x)) {
+        good++;
+      }
+    }
+    good += cycle_good * ((r210 - l210) / 210);
+  }
+
+  O(good);
 }

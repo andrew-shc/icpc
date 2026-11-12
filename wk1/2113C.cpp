@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <bits/stdc++.h>
 #include <climits>
 
@@ -175,6 +176,32 @@ int main() {
 //
 //
 //
+// P.1: if two cells have x-dist OR y-dist < (or <= ??) k => one will be
+// obtained (optimally) but the would have to be destroyed
+//          (assuming we can't just throw the dynamite such that it only takes
+//          out one of each on the boundary at different locations)
+// P.2: on the kth square-radius is the boundary
+//          k-1th (and smaller) < kth square-radius are considred STRICTLY
+//          inside the square
+//
+// P.3:
+//      IF k==1: we can always take all the gold (=>sum of g's)
+//      IF k > n-1 && k > m-1: everything will be destroyed (=>0)
+//
+// P.4: IF the initial empty square (x,y) has no gold bars STRICTLY within the
+//      k-square => sum of all golds
+//
+//      P.4/1: of all empty sqaures '.', pick the one with the smallest amount
+//      of golds STRICTLY within the k-square???? (to prevent destruction)
+//
+// KEY OBSERVATION (??): after picking an initial empty square, we can ALWAYS
+//      OPTIMALLY (GREEDILY) go step-by-step to pick up all the golds on the
+//      boundary cases
+//
+// ~~~~ IF 2k-1>=min(n,m): everything will be destroyed
+//
+// 2D DP??
+//
 //
 
 // LLONG_MAX, LLONG_MIN
@@ -185,6 +212,60 @@ void solve([[maybe_unused]] ll T) {
   // START ACTUAL CODE
   //
   ;
+  I(n, m, k);
+  vector<string> mine(n, "");
+  II(i, n) {
+    IS(mine_i);
+    mine[i] = mine_i;
+  }
 
+  vector<vll> dp(n + 1, vll(m + 1, 0));
+  II(i, n) {
+    II(j, m) {
+      // dp[i + 1][j + 1] = dp[i + 1][j] + dp[i][j + 1] - 2 * dp[i][j] +
+      //                    (mine[i][j] == 'g' ? 1 : 0);
+      dp[i + 1][j + 1] =
+          dp[i + 1][j] + dp[i][j + 1] - dp[i][j] + (mine[i][j] == 'g' ? 1 : 0);
+    }
+  }
+
+  ll invariant_max = dp[n][m];
+  ll max_gold = 0;
+  II(i, n) {
+    II(j, m) {
+      if (mine[i][j] == '.') {
+        // DBGLN(i, j);
+        // ll x = clamp(i + 1 - k, 0LL, n);
+        // ll y = clamp(j + 1 - k, 0LL, n);
+        // ll X = clamp(i + 1 + k, 0LL, n);
+        // ll Y = clamp(j + 1 + k, 0LL, n);
+        // ll xi = clamp(i + 1 - k + 1, 0LL, n);
+        // ll yi = clamp(j + 1 - k + 1, 0LL, n);
+        // ll Xi = clamp(i + 1 + k - 1, 0LL, n);
+        // ll Yi = clamp(j + 1 + k - 1, 0LL, n);
+        // ll xi = clamp(i + 1 - k + 1, 0LL, n);
+        // ll yi = clamp(j + 1 - k + 1, 0LL, m);
+        // ll Xi = clamp(i + 1 + k - 1, 0LL, n);
+        // ll Yi = clamp(j + 1 + k - 1, 0LL, m);
+        // b/c we are being inclusive w.r.t. the square that we're computing the
+        // sum of, we need to make the EXCLUSION exclusive (the subtraction)
+        // hence, the following (-1s on the small xi,yi)
+        ll xi = clamp(i + 1 - k + 1 - 1, 0LL, n);
+        ll yi = clamp(j + 1 - k + 1 - 1, 0LL, m);
+        ll Xi = clamp(i + 1 + k - 1, 0LL, n);
+        ll Yi = clamp(j + 1 + k - 1, 0LL, m);
+
+        // ll outer_gold = dp[X][Y] - dp[x][Y] - dp[X][y] + dp[x][y];
+        ll inner_gold = dp[Xi][Yi] - dp[xi][Yi] - dp[Xi][yi] + dp[xi][yi];
+        // max_gold = max(max_gold, invariant_max - (outer_gold - inner_gold));
+        max_gold = max(max_gold, invariant_max - inner_gold);
+
+        DBGLN(xi, yi, Xi, Yi);
+        DBGLN(i, j, invariant_max, inner_gold);
+      }
+    }
+  }
+
+  O(max_gold);
   ;
 }

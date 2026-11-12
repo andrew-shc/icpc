@@ -175,6 +175,46 @@ int main() {
 //
 //
 //
+// we can make n good pairs (u,v)
+//      if we alternate each edges except TWO ADJ. EDGES
+//      (because trees have n-1 edges, we need to utilize two edges to make
+//      three good pairs instead of two)
+//
+//
+// for every node, we can color them as alternating colors
+//  where we have {sink=only incoming edges, source=only outgoing edges} nodes
+//
+// this will give us n-1 good pairs
+//
+//~~~~~
+// to get n good pairs,
+//  we pick ONLY A 2-DEGREE node and flip one of the edges
+//      NO, we need to have a node with an adjacent duplicate COLOR/STATE
+//  --> y <- x -> z <-  (2 edges <-> 2 good pairs)
+//  --> y <- x <- z <-  (2 edges <-> 3+??? good pairs)
+//
+//  so it becomes this which is better (suppose x,z are both sink)
+//~~~~~~
+//
+//
+// pick a 2-DEG NODE
+//      set one of the edge to be incoming
+//      set the other edge to be outgoing
+//      mark the vertex connected via the incoming edge as source node
+//      mark the vertex connected vai the outgoing edge as sink node
+//      (so making the alternating source/sink node one MORE apart)
+//
+// BECAUSE this alternating construction is the MINIMUM possible ways to make
+// good pairs (n-1 good pairs), if we try to do it on a >2-deg NODE, it will NOT
+// WORK (and might increase in terms of combinations, not linearly)
+//      because we cannot decrease the amount of the good pairs anymore than the
+//      min construction
+//
+// HENCE, in both directions, we need SOME node that is EXACTLY  2-degree
+//
+//
+//
+//
 //
 
 // LLONG_MAX, LLONG_MIN
@@ -185,6 +225,64 @@ void solve([[maybe_unused]] ll T) {
   // START ACTUAL CODE
   //
   ;
+  I(n);
+  IVP(edges, n - 1);
+
+  vector<vll> adj_list(n, vll{});
+  II(i, n - 1) {
+    adj_list[edges[i].first - 1].PB(edges[i].second - 1);
+    adj_list[edges[i].second - 1].PB(edges[i].first - 1);
+  }
+
+  ll node_ind = -1;
+  II(i, n) {
+    if (adj_list[i].size() == 2) {
+      node_ind = i;
+      break;
+    }
+  }
+
+  if (node_ind == -1) {
+    // bad, no 2-deg node found
+    OHNO;
+  } else {
+    OHYES;
+
+    // construction by BFS from node_ind
+
+    // we assume [0] is the source and [1] is the sink
+    O(adj_list[node_ind][0] + 1, node_ind + 1);
+    O(node_ind + 1, adj_list[node_ind][1] + 1);
+    erase(adj_list[adj_list[node_ind][0]], node_ind);
+    erase(adj_list[adj_list[node_ind][1]], node_ind);
+
+    // source <-> sink
+    vll cur_sources = {adj_list[node_ind][0]};
+    vll cur_sinks = {adj_list[node_ind][1]};
+    while (cur_sources.size() > 0 || cur_sinks.size() > 0) {
+      // source
+      for (auto &source_ind : cur_sources) {
+        // source_ind -> (modified) adj
+        for (auto &adj_ind : adj_list[source_ind]) {
+          O(source_ind + 1, adj_ind + 1);
+          erase(adj_list[adj_ind], source_ind);
+          cur_sinks.PB(adj_ind);
+        }
+      }
+      cur_sources.clear();
+
+      // sink
+      for (auto &sink_ind : cur_sinks) {
+        // (modified) adj -> sink_ind
+        for (auto &adj_ind : adj_list[sink_ind]) {
+          O(adj_ind + 1, sink_ind + 1);
+          erase(adj_list[adj_ind], sink_ind);
+          cur_sources.PB(adj_ind);
+        }
+      }
+      cur_sinks.clear();
+    }
+  }
 
   ;
 }

@@ -142,7 +142,7 @@ int main() {
   ll T = 1;
 
   // comment out when working w/o testcases
-  cin >> T;
+  // cin >> T;
 
   ll t = T;
   while (t--) {
@@ -175,7 +175,43 @@ int main() {
 //
 //
 //
+// ~~~~P.1: probability that each cell is covered by ONE segments EXACTLY is
 //
+//       prod_{for each cells} of the following:
+//          sum_{all possible segments at current cell}
+//              (+ probability)(1 - probability of all other intersecting
+//              segments)
+//
+//!!!!!!!!!!!!!!!!!
+//
+//!! basic pre-req: by modular arithmetic, x/y <=> x*y^-1 (mod) === x*y^(M-2)
+//!(mod)
+//      the mod-div only works when the divisor is coprime
+//      and because the MOD M we're given is prime, most mod-div works except 0
+//      might need some special consideration
+//
+//! => basically, we want x*y^(M-2)
+//!    (might want to use binpow)
+//! and ensure x,y is coprime (reduced form)
+//
+//
+//=== STUCK: each cells cannot independently calculate the probabilities of the
+// existence of the segment (yes the probability is just the segment and no need
+// to divide by the area and all that stuff but do calculate the probability of
+// one suggests the existence of the segment on other cells also NOT
+// INDEPENDENT between cells...)
+//
+//
+//
+//
+//!!! per editorial
+//
+// just do intervals on end (why end? b/c its easier since we're moving from
+// 0->n)
+//      however, if we're doing something like suffix (going backwards /
+//      reverse) then do intervals on start makes sense (and look backwards)
+//
+// and just do it???
 
 // LLONG_MAX, LLONG_MIN
 const ll MOD = 998244353;
@@ -185,6 +221,85 @@ void solve([[maybe_unused]] ll T) {
   // START ACTUAL CODE
   //
   ;
+  I(n, m);
+  vector<tuple<ll, ll, ll, ll>> segments;
+  II(i, n) {
+    I(l, r, p, q);
+    // segments.PB({l, r, p, q});
+    segments.PB({r, l, p, q});
+    // makes it easier to sort by ends
+  }
+  // ST(segments);
 
+  auto binpow = [](ll b, ll p) {
+    ll r = 1;
+    ll x = b;
+    while (p) {
+      if (p & 1) {
+        r = (r * x) % MOD;
+      }
+      x = (x * x) % MOD;
+      p >>= 1;
+    }
+    return r;
+  };
+
+  vll dp(m + 1, 0);
+  vector<vector<tuple<ll, ll, ll, ll>>> segs_pos(
+      m, vector<tuple<ll, ll, ll, ll>>{});
+
+  // dp[0] represents the initial probability where NO segments exists
+  // dp[0] = PROD OF (1-p/q) = PROD OF (q-p)/q
+  //                                   (q-p)*q^(M-2)  (mod M)
+  dp[0] = 1;
+  for (auto &[r, l, p, q] : segments) {
+    dp[0] = (dp[0] * ((q - p) * binpow(q, MOD - 2) % MOD)) % MOD;
+    segs_pos[r - 1].PB({r, l, p, q});
+  }
+  // O(nlogn)
+
+  II(i, m) {
+    for (auto &[r, l, p, q] : segs_pos[i]) {
+      // dp[l-1] b/c we're accessing intervals before the selected segments and
+      // 1@->1@
+      //
+      // from dp[l-1] we multiply it by the EXISTENCE of segment p/q
+      //             and cancel out (remove) the tern that assumes NON-EXISTENCE
+      //             of segment (q-p)/q
+      //             which can easily be removed from dp[l-1] since all dp's
+      //             carry out (or start from) dp[0] that already includes all
+      //             the pre-computed products
+      //
+      //  p/q * (q-p)/q = (pq-pp)/q^2 = p(q-p)/q^2
+      //                            === p(q-p)*q^(M-3)    (mod M)
+      //
+      //
+      // CANCEL OUT MEANS DIVIDE NOT MULTIPLY LIKE
+      //
+      // p/q * 1/((q-p)/q) = p/q*q/(q-p) = p/(q-p)
+      //                                 === p*(q-p)^(M-2)   (mod M)
+
+      // dp[i + 1] =
+      //     (dp[i + 1] +
+      //      (dp[l - 1] * (p * ((q - p) * binpow(q, MOD - 3)) % MOD) % MOD) %
+      //          MOD) %
+      //     MOD;
+
+      dp[i + 1] =
+          (dp[i + 1] + dp[l - 1] * ((p * binpow(q - p, MOD - 2)) % MOD) % MOD) %
+          MOD;
+    }
+
+    // if no segments end at dp[i+1=r], then it would just be 0 (for impossible)
+  }
+  DBG_ITER(dp);
+
+  // ll x, y;
+
+  // at dp[m-1], it will include the sum of all the valid probabilities (across
+  // different segments ending at the last cell) that has each cell covered by
+  // exactly one segment
+
+  O(dp[m]);
   ;
 }
